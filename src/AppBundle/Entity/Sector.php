@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Sector
@@ -27,7 +28,7 @@ class Sector
      * @ORM\Column(name="nombre", type="string", length=255)
      */
     private $nombre;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Envio", mappedBy="sector")
      */

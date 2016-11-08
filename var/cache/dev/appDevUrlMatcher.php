@@ -100,138 +100,392 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         }
 
-        // homepage
-        if (rtrim($pathinfo, '/') === '') {
-            if (substr($pathinfo, -1) !== '/') {
-                return $this->redirect($pathinfo.'/', 'homepage');
+        if (0 === strpos($pathinfo, '/admin')) {
+            // homepage
+            if (rtrim($pathinfo, '/') === '/admin') {
+                if (substr($pathinfo, -1) !== '/') {
+                    return $this->redirect($pathinfo.'/', 'homepage');
+                }
+
+                return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::indexAction',  '_route' => 'homepage',);
             }
 
-            return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::indexAction',  '_route' => 'homepage',);
+            if (0 === strpos($pathinfo, '/admin/pro')) {
+                if (0 === strpos($pathinfo, '/admin/producto')) {
+                    // producto_index
+                    if (rtrim($pathinfo, '/') === '/admin/producto') {
+                        if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                            $allow = array_merge($allow, array('GET', 'HEAD'));
+                            goto not_producto_index;
+                        }
+
+                        if (substr($pathinfo, -1) !== '/') {
+                            return $this->redirect($pathinfo.'/', 'producto_index');
+                        }
+
+                        return array (  '_controller' => 'AppBundle\\Controller\\ProductoController::indexAction',  '_route' => 'producto_index',);
+                    }
+                    not_producto_index:
+
+                    // producto_new
+                    if ($pathinfo === '/admin/producto/new') {
+                        if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                            $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                            goto not_producto_new;
+                        }
+
+                        return array (  '_controller' => 'AppBundle\\Controller\\ProductoController::newAction',  '_route' => 'producto_new',);
+                    }
+                    not_producto_new:
+
+                    // producto_show
+                    if (preg_match('#^/admin/producto/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                        if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                            $allow = array_merge($allow, array('GET', 'HEAD'));
+                            goto not_producto_show;
+                        }
+
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'producto_show')), array (  '_controller' => 'AppBundle\\Controller\\ProductoController::showAction',));
+                    }
+                    not_producto_show:
+
+                    // producto_edit
+                    if (preg_match('#^/admin/producto/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+                        if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                            $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                            goto not_producto_edit;
+                        }
+
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'producto_edit')), array (  '_controller' => 'AppBundle\\Controller\\ProductoController::editAction',));
+                    }
+                    not_producto_edit:
+
+                    // producto_delete
+                    if (preg_match('#^/admin/producto/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                        if ($this->context->getMethod() != 'DELETE') {
+                            $allow[] = 'DELETE';
+                            goto not_producto_delete;
+                        }
+
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'producto_delete')), array (  '_controller' => 'AppBundle\\Controller\\ProductoController::deleteAction',));
+                    }
+                    not_producto_delete:
+
+                }
+
+                if (0 === strpos($pathinfo, '/admin/proveedor')) {
+                    // proveedor_index
+                    if (rtrim($pathinfo, '/') === '/admin/proveedor') {
+                        if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                            $allow = array_merge($allow, array('GET', 'HEAD'));
+                            goto not_proveedor_index;
+                        }
+
+                        if (substr($pathinfo, -1) !== '/') {
+                            return $this->redirect($pathinfo.'/', 'proveedor_index');
+                        }
+
+                        return array (  '_controller' => 'AppBundle\\Controller\\ProveedorController::indexAction',  '_route' => 'proveedor_index',);
+                    }
+                    not_proveedor_index:
+
+                    // proveedor_new
+                    if ($pathinfo === '/admin/proveedor/nuevo') {
+                        if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                            $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                            goto not_proveedor_new;
+                        }
+
+                        return array (  '_controller' => 'AppBundle\\Controller\\ProveedorController::newAction',  '_route' => 'proveedor_new',);
+                    }
+                    not_proveedor_new:
+
+                    // proveedor_show
+                    if (preg_match('#^/admin/proveedor/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                        if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                            $allow = array_merge($allow, array('GET', 'HEAD'));
+                            goto not_proveedor_show;
+                        }
+
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'proveedor_show')), array (  '_controller' => 'AppBundle\\Controller\\ProveedorController::showAction',));
+                    }
+                    not_proveedor_show:
+
+                    // proveedor_edit
+                    if (preg_match('#^/admin/proveedor/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+                        if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                            $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                            goto not_proveedor_edit;
+                        }
+
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'proveedor_edit')), array (  '_controller' => 'AppBundle\\Controller\\ProveedorController::editAction',));
+                    }
+                    not_proveedor_edit:
+
+                    // proveedor_delete
+                    if (preg_match('#^/admin/proveedor/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                        if ($this->context->getMethod() != 'DELETE') {
+                            $allow[] = 'DELETE';
+                            goto not_proveedor_delete;
+                        }
+
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'proveedor_delete')), array (  '_controller' => 'AppBundle\\Controller\\ProveedorController::deleteAction',));
+                    }
+                    not_proveedor_delete:
+
+                }
+
+            }
+
+            if (0 === strpos($pathinfo, '/admin/sector')) {
+                // sector_index
+                if (rtrim($pathinfo, '/') === '/admin/sector') {
+                    if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'HEAD'));
+                        goto not_sector_index;
+                    }
+
+                    if (substr($pathinfo, -1) !== '/') {
+                        return $this->redirect($pathinfo.'/', 'sector_index');
+                    }
+
+                    return array (  '_controller' => 'AppBundle\\Controller\\SectorController::indexAction',  '_route' => 'sector_index',);
+                }
+                not_sector_index:
+
+                // sector_new
+                if ($pathinfo === '/admin/sector/new') {
+                    if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                        goto not_sector_new;
+                    }
+
+                    return array (  '_controller' => 'AppBundle\\Controller\\SectorController::newAction',  '_route' => 'sector_new',);
+                }
+                not_sector_new:
+
+                // sector_show
+                if (preg_match('#^/admin/sector/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                    if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'HEAD'));
+                        goto not_sector_show;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'sector_show')), array (  '_controller' => 'AppBundle\\Controller\\SectorController::showAction',));
+                }
+                not_sector_show:
+
+                // sector_edit
+                if (preg_match('#^/admin/sector/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+                    if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                        goto not_sector_edit;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'sector_edit')), array (  '_controller' => 'AppBundle\\Controller\\SectorController::editAction',));
+                }
+                not_sector_edit:
+
+                // sector_delete
+                if (preg_match('#^/admin/sector/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                    if ($this->context->getMethod() != 'DELETE') {
+                        $allow[] = 'DELETE';
+                        goto not_sector_delete;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'sector_delete')), array (  '_controller' => 'AppBundle\\Controller\\SectorController::deleteAction',));
+                }
+                not_sector_delete:
+
+            }
+
         }
 
-        if (0 === strpos($pathinfo, '/proveedor')) {
-            // proveedor_index
-            if (rtrim($pathinfo, '/') === '/proveedor') {
+        if (0 === strpos($pathinfo, '/log')) {
+            if (0 === strpos($pathinfo, '/login')) {
+                // fos_user_security_login
+                if ($pathinfo === '/login') {
+                    if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                        goto not_fos_user_security_login;
+                    }
+
+                    return array (  '_controller' => 'FOS\\UserBundle\\Controller\\SecurityController::loginAction',  '_route' => 'fos_user_security_login',);
+                }
+                not_fos_user_security_login:
+
+                // fos_user_security_check
+                if ($pathinfo === '/login_check') {
+                    if ($this->context->getMethod() != 'POST') {
+                        $allow[] = 'POST';
+                        goto not_fos_user_security_check;
+                    }
+
+                    return array (  '_controller' => 'FOS\\UserBundle\\Controller\\SecurityController::checkAction',  '_route' => 'fos_user_security_check',);
+                }
+                not_fos_user_security_check:
+
+            }
+
+            // fos_user_security_logout
+            if ($pathinfo === '/logout') {
+                if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                    goto not_fos_user_security_logout;
+                }
+
+                return array (  '_controller' => 'FOS\\UserBundle\\Controller\\SecurityController::logoutAction',  '_route' => 'fos_user_security_logout',);
+            }
+            not_fos_user_security_logout:
+
+        }
+
+        if (0 === strpos($pathinfo, '/profile')) {
+            // fos_user_profile_show
+            if (rtrim($pathinfo, '/') === '/profile') {
                 if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
                     $allow = array_merge($allow, array('GET', 'HEAD'));
-                    goto not_proveedor_index;
+                    goto not_fos_user_profile_show;
                 }
 
                 if (substr($pathinfo, -1) !== '/') {
-                    return $this->redirect($pathinfo.'/', 'proveedor_index');
+                    return $this->redirect($pathinfo.'/', 'fos_user_profile_show');
                 }
 
-                return array (  '_controller' => 'AppBundle\\Controller\\ProveedorController::indexAction',  '_route' => 'proveedor_index',);
+                return array (  '_controller' => 'FOS\\UserBundle\\Controller\\ProfileController::showAction',  '_route' => 'fos_user_profile_show',);
             }
-            not_proveedor_index:
+            not_fos_user_profile_show:
 
-            // proveedor_new
-            if ($pathinfo === '/proveedor/nuevo') {
+            // fos_user_profile_edit
+            if ($pathinfo === '/profile/edit') {
                 if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
                     $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
-                    goto not_proveedor_new;
+                    goto not_fos_user_profile_edit;
                 }
 
-                return array (  '_controller' => 'AppBundle\\Controller\\ProveedorController::newAction',  '_route' => 'proveedor_new',);
+                return array (  '_controller' => 'FOS\\UserBundle\\Controller\\ProfileController::editAction',  '_route' => 'fos_user_profile_edit',);
             }
-            not_proveedor_new:
-
-            // proveedor_show
-            if (preg_match('#^/proveedor/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
-                if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
-                    $allow = array_merge($allow, array('GET', 'HEAD'));
-                    goto not_proveedor_show;
-                }
-
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'proveedor_show')), array (  '_controller' => 'AppBundle\\Controller\\ProveedorController::showAction',));
-            }
-            not_proveedor_show:
-
-            // proveedor_edit
-            if (preg_match('#^/proveedor/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
-                if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
-                    $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
-                    goto not_proveedor_edit;
-                }
-
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'proveedor_edit')), array (  '_controller' => 'AppBundle\\Controller\\ProveedorController::editAction',));
-            }
-            not_proveedor_edit:
-
-            // proveedor_delete
-            if (preg_match('#^/proveedor/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
-                if ($this->context->getMethod() != 'DELETE') {
-                    $allow[] = 'DELETE';
-                    goto not_proveedor_delete;
-                }
-
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'proveedor_delete')), array (  '_controller' => 'AppBundle\\Controller\\ProveedorController::deleteAction',));
-            }
-            not_proveedor_delete:
+            not_fos_user_profile_edit:
 
         }
 
-        if (0 === strpos($pathinfo, '/sector')) {
-            // sector_index
-            if (rtrim($pathinfo, '/') === '/sector') {
-                if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
-                    $allow = array_merge($allow, array('GET', 'HEAD'));
-                    goto not_sector_index;
+        if (0 === strpos($pathinfo, '/re')) {
+            if (0 === strpos($pathinfo, '/register')) {
+                // fos_user_registration_register
+                if (rtrim($pathinfo, '/') === '/register') {
+                    if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                        goto not_fos_user_registration_register;
+                    }
+
+                    if (substr($pathinfo, -1) !== '/') {
+                        return $this->redirect($pathinfo.'/', 'fos_user_registration_register');
+                    }
+
+                    return array (  '_controller' => 'FOS\\UserBundle\\Controller\\RegistrationController::registerAction',  '_route' => 'fos_user_registration_register',);
+                }
+                not_fos_user_registration_register:
+
+                if (0 === strpos($pathinfo, '/register/c')) {
+                    // fos_user_registration_check_email
+                    if ($pathinfo === '/register/check-email') {
+                        if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                            $allow = array_merge($allow, array('GET', 'HEAD'));
+                            goto not_fos_user_registration_check_email;
+                        }
+
+                        return array (  '_controller' => 'FOS\\UserBundle\\Controller\\RegistrationController::checkEmailAction',  '_route' => 'fos_user_registration_check_email',);
+                    }
+                    not_fos_user_registration_check_email:
+
+                    if (0 === strpos($pathinfo, '/register/confirm')) {
+                        // fos_user_registration_confirm
+                        if (preg_match('#^/register/confirm/(?P<token>[^/]++)$#s', $pathinfo, $matches)) {
+                            if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                                $allow = array_merge($allow, array('GET', 'HEAD'));
+                                goto not_fos_user_registration_confirm;
+                            }
+
+                            return $this->mergeDefaults(array_replace($matches, array('_route' => 'fos_user_registration_confirm')), array (  '_controller' => 'FOS\\UserBundle\\Controller\\RegistrationController::confirmAction',));
+                        }
+                        not_fos_user_registration_confirm:
+
+                        // fos_user_registration_confirmed
+                        if ($pathinfo === '/register/confirmed') {
+                            if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                                $allow = array_merge($allow, array('GET', 'HEAD'));
+                                goto not_fos_user_registration_confirmed;
+                            }
+
+                            return array (  '_controller' => 'FOS\\UserBundle\\Controller\\RegistrationController::confirmedAction',  '_route' => 'fos_user_registration_confirmed',);
+                        }
+                        not_fos_user_registration_confirmed:
+
+                    }
+
                 }
 
-                if (substr($pathinfo, -1) !== '/') {
-                    return $this->redirect($pathinfo.'/', 'sector_index');
-                }
-
-                return array (  '_controller' => 'AppBundle\\Controller\\SectorController::indexAction',  '_route' => 'sector_index',);
             }
-            not_sector_index:
 
-            // sector_new
-            if ($pathinfo === '/sector/new') {
-                if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
-                    $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
-                    goto not_sector_new;
+            if (0 === strpos($pathinfo, '/resetting')) {
+                // fos_user_resetting_request
+                if ($pathinfo === '/resetting/request') {
+                    if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'HEAD'));
+                        goto not_fos_user_resetting_request;
+                    }
+
+                    return array (  '_controller' => 'FOS\\UserBundle\\Controller\\ResettingController::requestAction',  '_route' => 'fos_user_resetting_request',);
                 }
+                not_fos_user_resetting_request:
 
-                return array (  '_controller' => 'AppBundle\\Controller\\SectorController::newAction',  '_route' => 'sector_new',);
-            }
-            not_sector_new:
+                // fos_user_resetting_send_email
+                if ($pathinfo === '/resetting/send-email') {
+                    if ($this->context->getMethod() != 'POST') {
+                        $allow[] = 'POST';
+                        goto not_fos_user_resetting_send_email;
+                    }
 
-            // sector_show
-            if (preg_match('#^/sector/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
-                if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
-                    $allow = array_merge($allow, array('GET', 'HEAD'));
-                    goto not_sector_show;
+                    return array (  '_controller' => 'FOS\\UserBundle\\Controller\\ResettingController::sendEmailAction',  '_route' => 'fos_user_resetting_send_email',);
                 }
+                not_fos_user_resetting_send_email:
 
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'sector_show')), array (  '_controller' => 'AppBundle\\Controller\\SectorController::showAction',));
-            }
-            not_sector_show:
+                // fos_user_resetting_check_email
+                if ($pathinfo === '/resetting/check-email') {
+                    if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'HEAD'));
+                        goto not_fos_user_resetting_check_email;
+                    }
 
-            // sector_edit
-            if (preg_match('#^/sector/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
-                if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
-                    $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
-                    goto not_sector_edit;
+                    return array (  '_controller' => 'FOS\\UserBundle\\Controller\\ResettingController::checkEmailAction',  '_route' => 'fos_user_resetting_check_email',);
                 }
+                not_fos_user_resetting_check_email:
 
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'sector_edit')), array (  '_controller' => 'AppBundle\\Controller\\SectorController::editAction',));
-            }
-            not_sector_edit:
+                // fos_user_resetting_reset
+                if (0 === strpos($pathinfo, '/resetting/reset') && preg_match('#^/resetting/reset/(?P<token>[^/]++)$#s', $pathinfo, $matches)) {
+                    if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                        goto not_fos_user_resetting_reset;
+                    }
 
-            // sector_delete
-            if (preg_match('#^/sector/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
-                if ($this->context->getMethod() != 'DELETE') {
-                    $allow[] = 'DELETE';
-                    goto not_sector_delete;
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'fos_user_resetting_reset')), array (  '_controller' => 'FOS\\UserBundle\\Controller\\ResettingController::resetAction',));
                 }
+                not_fos_user_resetting_reset:
 
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'sector_delete')), array (  '_controller' => 'AppBundle\\Controller\\SectorController::deleteAction',));
             }
-            not_sector_delete:
 
         }
+
+        // fos_user_change_password
+        if ($pathinfo === '/profile/change-password') {
+            if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                goto not_fos_user_change_password;
+            }
+
+            return array (  '_controller' => 'FOS\\UserBundle\\Controller\\ChangePasswordController::changePasswordAction',  '_route' => 'fos_user_change_password',);
+        }
+        not_fos_user_change_password:
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();
     }

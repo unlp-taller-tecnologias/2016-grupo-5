@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Producto creation</h1>
+
+    {{ form_start(form) }}
+        <br>
+        {{ form_label(form.nombre) }}
+        {{ form_widget(form.nombre) }}
+        lalala loloolo
+        <br>
+        <br>
+        {{ form_label(form.stockMinimo) }}
+        {{ form_widget(form.stockMinimo) }}
+        lalala loloolo
+        <br>
+        <input type="submit" value="Create" />
+    {{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('producto_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}
