@@ -160,11 +160,11 @@ class Pedido
     }
 
     /**
-     * Get datalle
+     * Get detalle
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getDatalle()
+    public function getDetalle()
     {
         return $this->datalle;
     }
