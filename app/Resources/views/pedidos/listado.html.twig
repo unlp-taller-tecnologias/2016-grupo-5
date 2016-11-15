@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    Pedidos
+    <table>
+        <tr>
+            <td>
+                Proveedor
+            </td>
+            <td>
+                Fecha de apertura
+            </td>
+            <td>
+                Fecha de Cierre
+            </td>
+        </tr>
+        {% for ped in pedidos%}
+            <tr>
+                <td>
+                    {{ ped.proveedor.nombre}}
+                   
+                </td>
+                <td>
+                     {{ ped.fechaApertura|date('d M Y g:ia') }}
+                </td>
+                <td>
+                     {{ ped.fechaCierre|date('d M Y g:ia') }}
+                </td>
+                <td><a href="{{ path('pedido_show', {'id':ped.id}) }}">mirameee</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

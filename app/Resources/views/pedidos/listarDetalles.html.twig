@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    Productos
+    <table>
+        <tr>
+            <td>
+                Producto
+            </td>
+            <td>
+                Cantidad pedida
+            </td>
+            <td>
+                Cantidad recibida
+            </td>
+        </tr>
+        {% for det in pedido.detalle %}
+            <tr>
+                <td>
+
+
+                </td>
+                <td>
+                    {{ det.getCantidadPedida }}
+                </td>
+                <td>
+                    {{ det.getCantidadRecibida }}
+                </td>
+
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}
