@@ -1,28 +1,28 @@
 {% extends 'templates/default.html.twig' %}
 
 {% block content %}
-    <h1>Sectors list</h1>
+    <h1>Detalleenvios list</h1>
 
     <table>
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Nombre</th>
+                <th>Cantidad</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for sector in sectors %}
+        {% for detalleEnvio in detalleEnvios %}
             <tr>
-                <td><a href="{{ path('sector_show', { 'id': sector.id }) }}">{{ sector.id }}</a></td>
-                <td>{{ sector.nombre }}</td>
+                <td><a href="{{ path('detalleenvio_show', { 'id': detalleEnvio.id }) }}">{{ detalleEnvio.id }}</a></td>
+                <td>{{ detalleEnvio.cantidad }}</td>
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('sector_show', { 'id': sector.id }) }}">show</a>
+                            <a href="{{ path('detalleenvio_show', { 'id': detalleEnvio.id }) }}">show</a>
                         </li>
                         <li>
-                            <a href="{{ path('sector_edit', { 'id': sector.id }) }}">edit</a>
+                            <a href="{{ path('detalleenvio_edit', { 'id': detalleEnvio.id }) }}">edit</a>
                         </li>
                     </ul>
                 </td>
@@ -33,7 +33,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('sector_new') }}">Create a new sector</a>
+            <a href="{{ path('detalleenvio_new') }}">Create a new detalleEnvio</a>
         </li>
     </ul>
 {% endblock %}

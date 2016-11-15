@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>Envios list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Fecha</th>
+                <th>Responsable</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for envio in envios %}
+            <tr>
+                <td><a href="{{ path('envio_show', { 'id': envio.id }) }}">{{ envio.id }}</a></td>
+                <td>{% if envio.fecha %}{{ envio.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ envio.responsable }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('envio_show', { 'id': envio.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('envio_edit', { 'id': envio.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('envio_new') }}">Create a new envio</a>
+        </li>
+    </ul>
+{% endblock %}
