@@ -1,0 +1,43 @@
+{% extends 'templates/layout.html.twig' %}
+
+{% if stylesheets is not defined %}
+    {% set stylesheets = [] %}
+{% endif %}
+
+{% if javascripts is not defined %}
+    {% set javascripts = [] %}
+{% endif %}
+
+{% block logo %}
+    <span class="logo-mini">SCS</span>
+    <span class="logo-lg">Sist. Control de Stock</span>
+{% endblock %}
+
+{% block navbarCustomMenu %}
+      {% include 'layout/user_menu.html.twig' %}
+{% endblock %}
+
+{% block mainSidebar %}
+    <ul class="sidebar-menu">
+        <li class="header">MENU PRINCIPAL</li>
+        {% include 'layout/sidemenu_menu.html.twig' %}
+    </ul>
+{% endblock %}
+
+{% block controlSidebar %}
+{% endblock %}
+
+{% block contentWrapper %}
+    <section class="content-header">
+        <h1>
+            Inicio
+            <small>Dashboard</small>
+        </h1>
+        <ol class="breadcrumb">
+            {% block breadcrumb %}{% endblock %}
+        </ol>
+    </section>
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+{% endblock %}

@@ -71,3 +71,21 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: AppBundle\Entity\User
+
+assetic:
+    node:           "%node_path%"
+    debug:          "%kernel.debug%"
+    use_controller: false
+    bundles: ['AppBundle']
+    # filters:
+    #     uglifycss:
+    #         bin: "%kernel.root_dir%/Resources/node_modules/.bin/uglifycss"
+    #     uglifyjs2:
+    #node: %node_bin_path%
+    #node_paths: %node_lib_paths%
+    filters:
+        cssrewrite: ~
+        uglifyjs2:
+            bin: %kernel.root_dir%/../app/Resources/node_modules/uglify-js
+        uglifycss:
+            bin: %kernel.root_dir%/../app/Resources/node_modules/uglifycss

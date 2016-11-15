@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <title>Sistema de Control de Stock</title>
+        {% block stylesheet %}
+            <link type="text/css" rel="stylesheet" href="{{ asset('lib/bootstrap/css/bootstrap.min.css') }}" />
+            <link type="text/css" rel="stylesheet" href="{{ asset('lib/bootstrap/css/bootstrap-theme.min.css') }}" />
+            <link type="text/css" rel="stylesheet" href="{{ asset('lib/adminlte/css/AdminLTE.min.css') }}" />
+            <link type="text/css" rel="stylesheet" href="{{ asset('lib/adminlte/css/skins/_all-skins.min.css') }}" />
+            <link type="text/css" rel="stylesheet" href="{{ asset('lib/font-awesome/css/font-awesome.min.css') }}" />
+        {% endblock stylesheet %}
+    </head>
+    <body class="hold-transition skin-blue sidebar-mini">
+        <div class="wrapper">
+            <header class="main-header">
+                <a href="{{ path('inicio') }}" class="logo">
+                    {% block logo %}{% endblock %}
+                </a>
+                <nav class="navbar navbar-static-top" >
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Cambiar navegación</span>
+                    </a>
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
+                            {% block navbarCustomMenu %}{% endblock %}
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+
+            <aside class="main-sidebar">
+                <div class="sidebar">
+                    {% block mainSidebar %}{% endblock %}
+                </div>
+            </aside>
+
+            <div class="content-wrapper">
+                {% block contentWrapper %}{% endblock %}
+            </div>
+
+            <footer class="main-footer">
+                <div class="pull-right hidden-xs">
+                    <b>Version</b> 1.0
+                </div>
+            </footer>
+
+
+            <aside class="control-sidebar control-sidebar-dark">
+                {% block controlSidebar %}{% endblock %}
+            </aside>
+            <div class="control-sidebar-bg"></div>
+        </div>
+
+        {% block javascript %}
+            <script type="text/javascript" src="{{ asset('lib/jquery/jquery.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('lib/bootstrap/js/bootstrap.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('lib/adminlte/js/app.min.js') }}"></script>
+        {% endblock javascript %}
+    </body>
+</html>
