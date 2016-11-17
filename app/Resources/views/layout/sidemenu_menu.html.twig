@@ -15,14 +15,10 @@
       <span>Pedidos</span>
     </a>
     <ul class="treeview-menu">
-<<<<<<< HEAD
-        <li ><a href="/pedido">Lista de pedidos</a></li>
-        <li ><a href="#">menu 1.2</a></li>
-=======
-        <li ><a href="">Listar</a></li>
+
+        <li ><a href="{{ path('pedido_index')}}">Listar</a></li>
         <li ><a href="#">Crear</a></li>
-        <li ><a href="#">Cerrar</a></li>
->>>>>>> 4ac76af92b32e6c838a34c9de6a01e6070cefb9b
+
     </ul>
 </li>
 <li class="treeview" >
@@ -31,14 +27,9 @@
       <span>Envios</span>
     </a>
     <ul class="treeview-menu">
-<<<<<<< HEAD
-        <li ><a href="/producto">Lista de productos</a></li>
-        <li ><a href="#">menu 1.2</a></li>
-=======
-      <li ><a href="#">Listar</a></li>
+      <li ><a href="{{ path('envio_index')}}">Listar</a></li>
       <li ><a href="#">Crear</a></li>
-      <li ><a href="#">Cerrar</a></li>
->>>>>>> 4ac76af92b32e6c838a34c9de6a01e6070cefb9b
+
     </ul>
 </li>
 <li class="treeview" >
@@ -46,10 +37,20 @@
     <i class="fa fa-medkit "></i>
       <span>Productos</span>
     </a>
+    <ul class="treeview-menu">
+      <li ><a href="{{ path('producto_index')}}">Listar</a></li>
+      <li ><a href="#">Crear</a></li>
+
+    </ul>
 </li>
 <li class="treeview" >
     <a href="">
     <i class="fa fa-home "></i>
       <span>Sector</span>
     </a>
+    <ul class="treeview-menu">
+      <li ><a href="{{ path('sector_index')}}">Listar</a></li>
+      <li ><a href="#">Crear</a></li>
+
+    </ul>
 </li>
