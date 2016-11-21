@@ -4,7 +4,7 @@
 
 <span class="fa  fa-heartbeat"></span>
 <li class="treeview" >
-    <a href="">
+    <a href="{{ path('inicio')}}">
     <i class="fa  fa-tachometer "></i>
       <span>Inicio</span>
     </a>
@@ -17,7 +17,7 @@
     <ul class="treeview-menu">
 
         <li ><a href="{{ path('pedido_index')}}">Listar</a></li>
-        <li ><a href="#">Crear</a></li>
+        <li ><a href="{{ path('pedido_new')}}">Crear</a></li>
 
     </ul>
 </li>

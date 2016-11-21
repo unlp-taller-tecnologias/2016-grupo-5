@@ -50,10 +50,13 @@ class PedidoController extends Controller
 
             return $this->redirectToRoute('pedido_show', array('id' => $pedido->getId()));
         }
+        $em = $this->getDoctrine()->getManager();
 
+        $detalle = $em->getRepository('AppBundle:Pedido')->findAll();
         return $this->render('pedido/new.html.twig', array(
             'pedido' => $pedido,
             'form' => $form->createView(),
+            'detalle' => $detalle,
         ));
     }
 
@@ -71,6 +74,9 @@ class PedidoController extends Controller
             'pedido' => $pedido,
             'delete_form' => $deleteForm->createView(),
         ));
+    }
+    public function createAction() {
+        
     }
 
     /**
