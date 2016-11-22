@@ -38,7 +38,7 @@ class Envio
 
     /**
      * @ORM\ManyToOne(targetEntity="Sector", inversedBy="envio")
-     * @ORM\JoinColumn(name="proveedor_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="sector_id", referencedColumnName="id")
      */
     private $sector;
 

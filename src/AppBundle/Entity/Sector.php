@@ -38,6 +38,12 @@ class Sector
     {
         $this->envios = new ArrayCollection();
     }
+    
+    public function __toString()
+    {
+        return $this->getNombre();
+    }
+
 
     /**
      * Get id
