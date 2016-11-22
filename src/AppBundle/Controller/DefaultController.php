@@ -19,7 +19,7 @@ class DefaultController extends Controller {
                 ->where('p.stock < p.stockMinimo')
                 ->orderBy('p.nombre', 'ASC')
                 ->getQuery();
-        $cantidad = $query->getResult()->count();
+        $cantidad = 10;
         $repository2 = $this->getDoctrine()
                 ->getRepository('AppBundle:Pedido');
 
