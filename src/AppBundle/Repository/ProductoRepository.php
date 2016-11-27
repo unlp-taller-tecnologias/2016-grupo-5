@@ -10,4 +10,13 @@ namespace AppBundle\Repository;
  */
 class ProductoRepository extends \Doctrine\ORM\EntityRepository
 {
+     public function getStockCritico() {
+        
+        $query = $this->createQueryBuilder('p')
+                ->where('p.stock <= p.stockMinimo')
+                ->orderBy('p.nombre', 'ASC')
+                ->getQuery();
+        $cantidad = count($query->getResult());
+        return $cantidad;
+    }
 }

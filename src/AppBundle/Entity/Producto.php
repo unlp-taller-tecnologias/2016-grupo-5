@@ -186,20 +186,5 @@ class Producto
         return $this->proveedor;
     }
     
-    /**
-     * Get stockCritico
-     *
-     * @return \AppBundle\Entity\Proveedor
-     */
-    public function getStockCritico() {
-        $repository = $this->getDoctrine()
-                ->getRepository('AppBundle:Producto');
-
-        $query = $repository->createQueryBuilder('p')
-                ->where('p.stock < p.stockMinimo')
-                ->orderBy('p.nombre', 'ASC')
-                ->getQuery();
-        $cantidad = count($query->getResult());
-        return $cantidad;
-    }
+   
 }

@@ -12,21 +12,18 @@ class DefaultController extends Controller {
      * @Route("/", name="inicio")
      */
     public function indexAction(Request $request) {
-        $em = $this->getDoctrine()->getManager();
-        $stockCritito = $em->getRepository('AppBundle:Pedido')->stockCritico();
-        $cantidad = count($query->getResult());
+        $repository = $this->getDoctrine()
+                ->getRepository('AppBundle:Producto');
+
+        $cantidad = $repository->getStockCritico();
+
         $repository2 = $this->getDoctrine()
                 ->getRepository('AppBundle:Pedido');
-        $query2 = $repository2->createQueryBuilder('p')
-                ->where('p.fechaCierre = null')
-                ->orderBy('p.id', 'ASC')
-                ->getQuery();
+        
 
-        $productos = $query->getResult();
-        $stockCritico = array('productos' => $productos, 'cantidad' => $cantidad,);
-        $pedidosAbiertos = $query2;
+        $pedidosAbiertos = $repository2->getPedidosAbiertos();
         return $this->render('default/index.html.twig', [
-                    'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..'), 'stockCritico' => $stockCritico, 'pedidosAbiertos' => $pedidosAbiertos,
+                    'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..'), 'stockCritico' => $cantidad, 'pedidosAbiertos' => $pedidosAbiertos,
         ]);
     }
 
