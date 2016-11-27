@@ -1,5 +1,17 @@
 {% extends 'templates/default.html.twig' %}
 
+{% set page =
+    {
+        "title": "Inicio",
+        "subtitle": "Dashboard",
+        "section": "Administracion"
+    }
+%}
+
+{% block breadcrumb %}
+    <li><a href=""><i class="fa fa-hashtag"></i>{{page.title}}</a></li>
+    <li class="active"> {{ page.subtitle }}</li>
+{% endblock %}
 {% block content %}
     <div class="row">
         <div class="col-lg-3 col-xs-6">

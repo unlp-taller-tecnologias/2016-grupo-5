@@ -13,7 +13,52 @@ class ProductoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('stockMinimo')->add('stockIdeal')->add('stock')->add('nombre')->add('proveedor');
+        $builder
+        ->add('stockMinimo', null, array(
+          'label' => 'Stock Minimo',
+          'mapped' => true,
+          'required' => true,
+          'attr' => array(
+            'class' => 'form-control',
+            'placeholder' => 'Stock Minimo',
+          )
+        ))
+        ->add('stockIdeal', null, array(
+          'label' => 'Stock Ideal',
+          'mapped' => true,
+          'required' => true,
+          'attr' => array(
+            'class' => 'form-control',
+            'placeholder' => 'Stock Ideal',
+          )
+        ))
+        ->add('stock', null, array(
+          'label' => 'Stock Actual',
+          'mapped' => true,
+          'required' => true,
+          'attr' => array(
+            'class' => 'form-control',
+            'placeholder' => 'Stock Actual',
+          )
+        ))
+        ->add('nombre', null, array(
+          'label' => 'Nombre',
+          'mapped' => true,
+          'required' => true,
+          'attr' => array(
+            'class' => 'form-control',
+            'placeholder' => 'Escriba un Nombre',
+          )
+        ))
+        ->add('proveedor', null, array(
+          'label' => 'Proveedor',
+          'mapped' => true,
+          'required' => true,
+          'attr' => array(
+            'class' => 'form-control',
+            'placeholder' => 'Proveedor',
+          )
+        ));
     }
 
     /**

@@ -45,11 +45,16 @@ class Envio
     /**
      * @ORM\OneToMany(targetEntity="DetalleEnvio", mappedBy="envio")
      */
-    private $datalle;
+    private $detalle;
+
+    public function __toString()
+    {
+        return "id: ".$this->id;
+    }
 
     public function __construct()
     {
-        $this->datalle = new ArrayCollection();
+        $this->detalle = new ArrayCollection();
     }
     /**
      * Get id
@@ -134,36 +139,36 @@ class Envio
     }
 
     /**
-     * Add datalle
+     * Add detalle
      *
-     * @param \AppBundle\Entity\DetalleEnvio $datalle
+     * @param \AppBundle\Entity\DetalleEnvio $detalle
      *
      * @return Envio
      */
-    public function addDatalle(\AppBundle\Entity\DetalleEnvio $datalle)
+    public function adddetalle(\AppBundle\Entity\DetalleEnvio $detalle)
     {
-        $this->datalle[] = $datalle;
+        $this->detalle[] = $detalle;
 
         return $this;
     }
 
     /**
-     * Remove datalle
+     * Remove detalle
      *
-     * @param \AppBundle\Entity\DetalleEnvio $datalle
+     * @param \AppBundle\Entity\DetalleEnvio $detalle
      */
-    public function removeDatalle(\AppBundle\Entity\DetalleEnvio $datalle)
+    public function removedetalle(\AppBundle\Entity\DetalleEnvio $detalle)
     {
-        $this->datalle->removeElement($datalle);
+        $this->detalle->removeElement($detalle);
     }
 
     /**
-     * Get datalle
+     * Get detalle
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getDatalle()
+    public function getdetalle()
     {
-        return $this->datalle;
+        return $this->detalle;
     }
 }

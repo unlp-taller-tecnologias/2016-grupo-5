@@ -20,58 +20,31 @@ class ProveedorController extends Controller
      * @Route("/", name="proveedor_index")
      * @Method("GET")
      */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
+     public function indexAction(Request $request, Proveedor $proveedor = null)
+     {
+         $em = $this->getDoctrine()->getManager();
 
-        $proveedors = $em->getRepository('AppBundle:Proveedor')->findAll();
+         $proveedors = $em->getRepository('AppBundle:Proveedor')->findAll();
+         if (is_null($proveedors)) {
+           $sector = new Proveedor;
+         }
+         $form = $this->createForm('AppBundle\Form\ProveedorType', $proveedor);
+         $form->handleRequest($request);
 
-        return $this->render('proveedor/index.html.twig', array(
-            'proveedors' => $proveedors,
-        ));
-    }
+         if ($form->isSubmitted() && $form->isValid()) {
+             $em = $this->getDoctrine()->getManager();
+             $em->persist($sector);
+             $em->flush();
 
-    /**
-     * Creates a new proveedor entity.
-     *
-     * @Route("/nuevo", name="proveedor_new")
-     * @Method({"GET", "POST"})
-     */
-    public function newAction(Request $request)
-    {
-        $proveedor = new Proveedor();
-        $form = $this->createForm('AppBundle\Form\ProveedorType', $proveedor);
-        $form->handleRequest($request);
+             return $this->redirectToRoute('proveedor_index');
+         }
+         return $this->render('proveedor/index.html.twig', array(
+             'proveedors' => $proveedors,
+             'proveedor' => $proveedor,
+             'form' => $form->createView(),
+         ));
+     }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($proveedor);
-            $em->flush($proveedor);
-
-            return $this->redirectToRoute('proveedor_show', array('id' => $proveedor->getId()));
-        }
-
-        return $this->render('proveedor/new.html.twig', array(
-            'proveedor' => $proveedor,
-            'form' => $form->createView(),
-        ));
-    }
-
-    /**
-     * Finds and displays a proveedor entity.
-     *
-     * @Route("/{id}", name="proveedor_show")
-     * @Method("GET")
-     */
-    public function showAction(Proveedor $proveedor)
-    {
-        $deleteForm = $this->createDeleteForm($proveedor);
-
-        return $this->render('proveedor/show.html.twig', array(
-            'proveedor' => $proveedor,
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
 
     /**
      * Displays a form to edit an existing proveedor entity.
@@ -81,21 +54,7 @@ class ProveedorController extends Controller
      */
     public function editAction(Request $request, Proveedor $proveedor)
     {
-        $deleteForm = $this->createDeleteForm($proveedor);
-        $editForm = $this->createForm('AppBundle\Form\ProveedorType', $proveedor);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('proveedor_edit', array('id' => $proveedor->getId()));
-        }
-
-        return $this->render('proveedor/edit.html.twig', array(
-            'proveedor' => $proveedor,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+        return $this->indexAction($request, $proveedor);
     }
 
     /**
