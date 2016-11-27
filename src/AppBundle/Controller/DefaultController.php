@@ -12,17 +12,11 @@ class DefaultController extends Controller {
      * @Route("/", name="inicio")
      */
     public function indexAction(Request $request) {
-        $repository = $this->getDoctrine()
-                ->getRepository('AppBundle:Producto');
-
-        $query = $repository->createQueryBuilder('p')
-                ->where('p.stock < p.stockMinimo')
-                ->orderBy('p.nombre', 'ASC')
-                ->getQuery();
-        $cantidad = 10;
+        $em = $this->getDoctrine()->getManager();
+        $stockCritito = $em->getRepository('AppBundle:Pedido')->stockCritico();
+        $cantidad = count($query->getResult());
         $repository2 = $this->getDoctrine()
                 ->getRepository('AppBundle:Pedido');
-
         $query2 = $repository2->createQueryBuilder('p')
                 ->where('p.fechaCierre = null')
                 ->orderBy('p.id', 'ASC')
