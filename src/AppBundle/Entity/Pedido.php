@@ -46,11 +46,11 @@ class Pedido
     /**
      * @ORM\OneToMany(targetEntity="DetallePedido", mappedBy="pedido")
      */
-    private $datalle;
+    private $detalle;
 
     public function __construct()
     {
-        $this->datalle = new ArrayCollection();
+        $this->detalle = new ArrayCollection();
     }
 
     /**
@@ -136,27 +136,27 @@ class Pedido
     }
 
     /**
-     * Add datalle
+     * Add detalle
      *
-     * @param \AppBundle\Entity\DetallePedido $datalle
+     * @param \AppBundle\Entity\DetallePedido $detalle
      *
      * @return Pedido
      */
-    public function addDatalle(\AppBundle\Entity\DetallePedido $datalle)
+    public function adddetalle(\AppBundle\Entity\DetallePedido $detalle)
     {
-        $this->datalle[] = $datalle;
+        $this->detalle[] = $detalle;
 
         return $this;
     }
 
     /**
-     * Remove datalle
+     * Remove detalle
      *
-     * @param \AppBundle\Entity\DetallePedido $datalle
+     * @param \AppBundle\Entity\DetallePedido $detalle
      */
-    public function removeDatalle(\AppBundle\Entity\DetallePedido $datalle)
+    public function removedetalle(\AppBundle\Entity\DetallePedido $detalle)
     {
-        $this->datalle->removeElement($datalle);
+        $this->detalle->removeElement($detalle);
     }
 
     /**
@@ -166,6 +166,6 @@ class Pedido
      */
     public function getDetalle()
     {
-        return $this->datalle;
+        return $this->detalle;
     }
 }

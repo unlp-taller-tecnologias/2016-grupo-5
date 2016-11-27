@@ -1,45 +1,130 @@
 {% extends 'templates/default.html.twig' %}
 
-{% block content %}
-    <h1>Productos list</h1>
+{% set page =
+    {
+        "title": "Producto",
+        "subtitle": "Inicio",
+        "section": "Producto"
+    }
+%}
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Stockminimo</th>
-                <th>Stockideal</th>
-                <th>Stock</th>
-                <th>Nombre</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for producto in productos %}
-            <tr>
-                <td><a href="{{ path('producto_show', { 'id': producto.id }) }}">{{ producto.id }}</a></td>
-                <td>{{ producto.stockMinimo }}</td>
-                <td>{{ producto.stockIdeal }}</td>
-                <td>{{ producto.stock }}</td>
-                <td>{{ producto.nombre }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('producto_show', { 'id': producto.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('producto_edit', { 'id': producto.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('producto_new') }}">Create a new producto</a>
-        </li>
-    </ul>
+{% block breadcrumb %}
+    <li><a href=""><i class="fa fa-hashtag"></i>Producto</a></li>
+    <li class="active"> {{ page.title }}</li>
 {% endblock %}
+
+{% block content %}
+<div>
+    <div class="box box-primary">
+        <div class="box-body">
+            {{ form_start(form, {'attr': {'id':'form', 'role': 'form'}}) }}
+            <div class="form-group{% if form.nombre.vars.errors|length > 0 %} has-error{% endif %}">
+                {{ form_label(form.nombre) }}
+                {{ form_widget(form.nombre) }}
+                <div class="help-block with-errors">
+                    {{ form_errors(form.nombre) }}
+                </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group{% if form.stockMinimo.vars.errors|length > 0 %} has-error{% endif %}">
+                    {{ form_label(form.stockMinimo) }}
+                    {{ form_widget(form.stockMinimo) }}
+                    <div class="help-block with-errors">
+                        {{ form_errors(form.nombre) }}
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group{% if form.stockIdeal.vars.errors|length > 0 %} has-error{% endif %}">
+                    {{ form_label(form.stockIdeal) }}
+                    {{ form_widget(form.stockIdeal) }}
+                    <div class="help-block with-errors">
+                        {{ form_errors(form.stockIdeal) }}
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group{% if form.stock.vars.errors|length > 0 %} has-error{% endif %}">
+                    {{ form_label(form.stock) }}
+                    {{ form_widget(form.stock) }}
+                    <div class="help-block with-errors">
+                        {{ form_errors(form.stock) }}
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group{% if form.proveedor.vars.errors|length > 0 %} has-error{% endif %}">
+                {{ form_label(form.proveedor) }}
+                {{ form_widget(form.proveedor) }}
+                <div class="help-block with-errors">
+                    {{ form_errors(form.proveedor) }}
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+              <button type="submit" class="btn btn-success pull-right"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+          </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+<div>
+    <div class="box">
+        <div class="box-body">
+            <div class="dataTables_wrapper form-inline dt-bootstrap">
+                <table id="table" class="table dataTable table-bordered table-hover">
+                    <thead>
+                      <tr>
+                          <th>#</th>
+                          <th>Nombre</th>
+                          <th>Stock Min</th>
+                          <th>Stock Ideal</th>
+                          <th>Stock Actual</th>
+                          <th>Proovedor</th>
+                          <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for item in productos %}
+                      <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.nombre }}</td>
+                        <td>{{ item.stockMinimo }}</td>
+                        <td>{{ item.stockIdeal }}</td>
+                        <td>{{ item.stock }}</td>
+                        <td>{{ item.proveedor.nombre }}</td>
+                        <td class="table-operations">
+                          <a href="{{ path('producto_edit', { 'id': item.id }) }}" title="Editar"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Stock Min</th>
+                        <th>Stock Ideal</th>
+                        <th>Stock Actual</th>
+                        <th>proveedor</th>
+                        <th></th>
+                      </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('lib/bootstrap-datatables/jquery.dataTables.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('lib/bootstrap-datatables/dataTables.bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/DataTable.ready.js') }}"></script>
+{% endblock javascript %}
+{% block stylesheet %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('lib/bootstrap-datatables/dataTables.bootstrap.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/DataTable.css') }}" />
+{% endblock stylesheet %}

@@ -34,6 +34,10 @@ class DetalleEnvio
      */
     private $envio;
 
+    public function __ToString(){
+      return $this->getCantidadPedida();
+    }
+
     /**
      * Get id
      *

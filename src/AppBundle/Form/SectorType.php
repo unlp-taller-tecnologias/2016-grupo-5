@@ -13,9 +13,17 @@ class SectorType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nombre')        ;
+        $builder->add('nombre', null, array(
+          'label' => 'Nombre',
+          'mapped' => true,
+          'required' => false,
+          'attr' => array(
+            'class' => 'form-control',
+            'placeholder' => 'Escriba un Nombre',
+          )
+        ));
     }
-    
+
     /**
      * {@inheritdoc}
      */

@@ -18,58 +18,30 @@ class ProductoController extends Controller
      * Lists all producto entities.
      *
      * @Route("/", name="producto_index")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      */
-    public function indexAction()
+    public function indexAction(Request $request, Producto $producto = null)
     {
         $em = $this->getDoctrine()->getManager();
 
         $productos = $em->getRepository('AppBundle:Producto')->findAll();
-
-        return $this->render('producto/index.html.twig', array(
-            'productos' => $productos,
-        ));
-    }
-
-    /**
-     * Creates a new producto entity.
-     *
-     * @Route("/new", name="producto_new")
-     * @Method({"GET", "POST"})
-     */
-    public function newAction(Request $request)
-    {
-        $producto = new Producto();
+        if (is_null($producto)) {
+          $producto = new Producto;
+        }
         $form = $this->createForm('AppBundle\Form\ProductoType', $producto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($producto);
-            $em->flush($producto);
+            $em->flush();
 
-            return $this->redirectToRoute('producto_show', array('id' => $producto->getId()));
+            return $this->redirectToRoute('producto_index');
         }
-
-        return $this->render('producto/new.html.twig', array(
+        return $this->render('producto/index.html.twig', array(
+            'productos' => $productos,
             'producto' => $producto,
             'form' => $form->createView(),
-        ));
-    }
-
-    /**
-     * Finds and displays a producto entity.
-     *
-     * @Route("/{id}", name="producto_show")
-     * @Method("GET")
-     */
-    public function showAction(Producto $producto)
-    {
-        $deleteForm = $this->createDeleteForm($producto);
-
-        return $this->render('producto/show.html.twig', array(
-            'producto' => $producto,
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -81,21 +53,7 @@ class ProductoController extends Controller
      */
     public function editAction(Request $request, Producto $producto)
     {
-        $deleteForm = $this->createDeleteForm($producto);
-        $editForm = $this->createForm('AppBundle\Form\ProductoType', $producto);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('producto_edit', array('id' => $producto->getId()));
-        }
-
-        return $this->render('producto/edit.html.twig', array(
-            'producto' => $producto,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+      return $this->indexAction($request, $sector);
     }
 
     /**
