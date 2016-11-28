@@ -22,27 +22,27 @@ class ProductoRepository extends \Doctrine\ORM\EntityRepository
   public function getCriticalProductFromProvider($idProvider)
   {
     return $this->createQueryBuilder('p')
-          ->where('p.proveedor_id = :idProvider')
+          ->where('p.proveedor = :idProvider')
           ->setParameter('idProvider', $idProvider)
           ->andWhere('p.stock <= p.stockMinimo')
-          ->getQuery()->getResult();
+          ->getQuery()->getArrayResult();
   }
 
   public function getGoodProductFromProvider($idProvider)
   {
     return $this->createQueryBuilder('p')
-          ->where('p.proveedor_id = :idProvider')
+          ->where('p.proveedor = :idProvider')
           ->setParameter('idProvider', $idProvider)
           ->andWhere('p.stock > p.stockMinimo')
-          ->getQuery()->getResult();
+          ->getQuery()->getArrayResult();
   }
 
-     public function getCountStockCritico() {
+   public function getCountStockCritico() {
 
-        return $this->createQueryBuilder('p')
-                ->select('count(p.id)')
-                ->where('p.stock <= p.stockMinimo')
-                ->getQuery()
-                ->getSingleScalarResult();
-    }
+      return $this->createQueryBuilder('p')
+              ->select('count(p.id)')
+              ->where('p.stock <= p.stockMinimo')
+              ->getQuery()
+              ->getSingleScalarResult();
+  }
 }

@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Pedido;
+use AppBundle\Entity\DetallePedido;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
@@ -40,22 +41,31 @@ class PedidoController extends Controller
     public function newAction(Request $request)
     {
         $pedido = new Pedido();
-        $form = $this->createForm('AppBundle\Form\PedidoType', $pedido);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
+        if ($request->isMethod('POST')) {
+            $proveedor = $em->getRepository('AppBundle:Proveedor')->findOneById($request->request->get('proveedor'));
+            $pedido->setProveedor($proveedor);
             $em->persist($pedido);
-            $em->flush($pedido);
-
-            return $this->redirectToRoute('pedido_show', array('id' => $pedido->getId()));
+            $em->flush();
+            foreach ($request->request->get('producto') as $id => $cant) {
+              $detallePedido = new DetallePedido();
+              $detallePedido->setPedido($pedido);
+              $detallePedido->setCantidadPedida($cant);
+              $producto = $em->getRepository('AppBundle:Producto')->findOneById($id);
+              $detallePedido->setProducto($producto);
+              $em->persist($detallePedido);
+              $em->flush();
+              $pedido->adddetalle($detallePedido);
+            }
+            $em->persist($pedido);
+            $em->flush();
         }
         $em = $this->getDoctrine()->getManager();
-
+        $proveedors = $em->getRepository('AppBundle:Proveedor')->findAll();
         $detalle = $em->getRepository('AppBundle:Pedido')->findAll();
         return $this->render('pedido/new.html.twig', array(
             'pedido' => $pedido,
-            'form' => $form->createView(),
+            'proveedors' => $proveedors,
             'detalle' => $detalle,
         ));
     }
@@ -76,7 +86,7 @@ class PedidoController extends Controller
         ));
     }
     public function createAction() {
-        
+
     }
 
     /**
