@@ -27,5 +27,30 @@ class EstadisticaController extends Controller {
                     'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..'), 'productos' => $productos,
         ]);
     }
+    
+    /**
+     * @Route("/datosProducto", name="datos_producto")
+     * @Method({"POST"})
+     */
+     public function datosProductoAction(Request $request)
+    {
+        if($request->isXmlHttpRequest())
+        {
+            $encoders = array(new JsonEncoder());
+            $normalizers = array(new ObjectNormalizer());
+ 
+            $serializer = new Serializer($normalizers, $encoders);
+ 
+            $em = $this->getDoctrine()->getManager();
+            $posts =  $em->getRepository('AppBundle:Producto')->findAll();
+            $response = new JsonResponse();
+            $response->setStatusCode(200);
+            $response->setData(array(
+                'response' => 'success',
+                'producto' => $serializer->serialize($posts, 'json')
+            ));
+            return $response;
+        }
+    }
 
 }
