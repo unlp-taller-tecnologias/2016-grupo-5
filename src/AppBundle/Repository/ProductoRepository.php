@@ -10,4 +10,31 @@ namespace AppBundle\Repository;
  */
 class ProductoRepository extends \Doctrine\ORM\EntityRepository
 {
+  public function getCriticalProduct()
+  {
+    return $this->createQueryBuilder('p')
+             ->where('p.stock < p.stockMinimo')
+             ->orderBy('p.nombre', 'ASC')
+             ->getQuery()
+             ->getResult();
+  }
+
+  public function getCriticalProductFromProvider($idProvider)
+  {
+    return $this->createQueryBuilder('p')
+          ->where('p.proveedor_id = :idProvider')
+          ->setParameter('idProvider', $idProvider)
+          ->andWhere('p.stock <= p.stockMinimo')
+          ->getQuery()->getResult();
+  }
+
+  public function getGoodProductFromProvider($idProvider)
+  {
+    return $this->createQueryBuilder('p')
+          ->where('p.proveedor_id = :idProvider')
+          ->setParameter('idProvider', $idProvider)
+          ->andWhere('p.stock > p.stockMinimo')
+          ->getQuery()->getResult();
+  }
+
 }

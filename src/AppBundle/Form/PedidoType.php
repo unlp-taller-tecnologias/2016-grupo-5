@@ -14,10 +14,15 @@ class PedidoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-          ->add('fechaApertura')
-          ->add('fechaCierre')
-          ->add('proveedor')
-        ;
+          ->add('proveedor', null, array(
+            'label' => 'Proveedor',
+            'mapped' => true,
+            'required' => true,
+            'attr' => array(
+              'class' => 'form-control',
+              'placeholder' => 'Proveedor',
+            )
+          ));
     }
 
     /**

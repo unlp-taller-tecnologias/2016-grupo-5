@@ -10,4 +10,11 @@ namespace AppBundle\Repository;
  */
 class PedidoRepository extends \Doctrine\ORM\EntityRepository
 {
+  public function getOrdersOpen()
+  {
+    return $this->createQueryBuilder('p')
+          ->where('p.fechaCierre < :fechaCierre')
+          ->setParameter('fechaCierre', new \DateTime('now'))
+          ->getQuery()->getResult();
+  }
 }

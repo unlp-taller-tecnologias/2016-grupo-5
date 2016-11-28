@@ -5,7 +5,9 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Producto;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Producto controller.
@@ -43,6 +45,22 @@ class ProductoController extends Controller
             'producto' => $producto,
             'form' => $form->createView(),
         ));
+    }
+    /**
+     * get state critical product for provider.
+     *
+     * @Route("/ajaxConsultProduct", name="ajax_get_product")
+     * @Method({"GET"})
+     */
+    public function ajaxProductForProviderAction($provider)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $criticos = $em->getRepository('AppBundle:Producto')->getCriticalProductFromProvider($provider);
+        $bien = $em->getRepository('AppBundle:Producto')->getGoodProductFromProvider($provider);
+        $response = new JsonResponse();
+        $response->setData(array('criticos' => $criticos, 'bien'=>$bien));
+        return $response;
     }
 
     /**

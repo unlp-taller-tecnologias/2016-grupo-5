@@ -9,9 +9,9 @@
       <span>Inicio</span>
     </a>
 </li>
-<li class="treeview" >
+<li class="treeview {% if page.title == "Pedido" %} active {% endif %}" >
     <a href="">
-    <i class="fa fa-indent "></i>
+    <i class="fa fa-indent"></i>
       <span>Pedidos</span>
     </a>
     <ul class="treeview-menu">
@@ -21,7 +21,7 @@
 
     </ul>
 </li>
-<li class="treeview" >
+<li class="treeview  {% if page.title == "Envio" %} active {% endif %}" >
     <a href="">
     <i class="fa fa-dedent"></i>
       <span>Envios</span>
@@ -32,19 +32,19 @@
 
     </ul>
 </li>
-<li class="treeview" >
+<li class="treeview {% if page.title == "Producto" %} active {% endif %}" >
     <a href="{{ path('producto_index')}}">
     <i class="fa fa-medkit "></i>
       <span>Productos</span>
     </a>
 </li>
-<li class="treeview" >
+<li class="treeview  {% if page.title == "Sector" %} active {% endif %}" >
     <a href="{{ path('sector_index')}}">
     <i class="fa fa-home "></i>
       <span>Sector</span>
     </a>
 </li>
-<li class="treeview" >
+<li class="treeview  {% if page.title == "Proveedor" %} active {% endif %}" >
     <a href="{{ path('proveedor_index')}}">
     <i class="fa  fa-cart-plus"></i>
       <span>Proveedor</span>
