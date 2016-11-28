@@ -1,0 +1,23 @@
+{% extends 'templates/default.html.twig' %}
+{% set page =
+    {
+        "title": "Inicio",
+        "subtitle": "Dashboard",
+        "section": "Administracion"
+    }
+%}
+
+{% block breadcrumb %}
+    <li><a href=""><i class="fa fa-hashtag"></i>{{page.title}}</a></li>
+    <li class="active"> {{ page.subtitle }}</li>
+    {% endblock %}
+    {% block content %}
+    <label>Fecha inicio</label><input type="text" name="fecha_inicio">
+    <label>Fecha fin</label><input type="text" name="fecha_fin">
+    <select>
+        {% for producto in productos%}
+            <option value="{{producto.id}}">{{producto.nombre}}</option>
+        {% endfor %}
+    </select>       
+        <button type="button">Mostrar</button>
+{% endblock %}

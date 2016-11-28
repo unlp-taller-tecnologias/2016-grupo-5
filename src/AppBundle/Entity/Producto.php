@@ -185,4 +185,6 @@ class Producto
     {
         return $this->proveedor;
     }
+    
+   
 }

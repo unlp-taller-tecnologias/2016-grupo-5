@@ -37,4 +37,12 @@ class ProductoRepository extends \Doctrine\ORM\EntityRepository
           ->getQuery()->getResult();
   }
 
+     public function getCountStockCritico() {
+
+        return $this->createQueryBuilder('p')
+                ->select('count(p.id)')
+                ->where('p.stock <= p.stockMinimo')
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
 }
