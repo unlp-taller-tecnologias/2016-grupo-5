@@ -12,19 +12,16 @@ class DefaultController extends Controller {
      * @Route("/", name="inicio")
      */
     public function indexAction(Request $request) {
-        $repository = $this->getDoctrine()
-                ->getRepository('AppBundle:Producto');
 
-        $cantidad = $repository->getStockCritico();
+        $cantidad = $this->getDoctrine()
+                ->getRepository('AppBundle:Producto')
+                ->getCountStockCritico();
 
-        $repository2 = $this->getDoctrine()
-                ->getRepository('AppBundle:Pedido');
-        
+        $pedidosAbiertos = $this->getDoctrine()
+                ->getRepository('AppBundle:Pedido')
+                ->getPedidosAbiertos();
 
-        $pedidosAbiertos = $repository2->getPedidosAbiertos();
-        return $this->render('default/index.html.twig', [
-                    'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..'), 'stockCritico' => $cantidad, 'pedidosAbiertos' => $pedidosAbiertos,
-        ]);
+        return $this->render('default/index.html.twig', array('stockCritico' => $cantidad, 'pedidosAbiertos' => $pedidosAbiertos));
     }
 
 }

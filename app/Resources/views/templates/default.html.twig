@@ -1,4 +1,7 @@
 {% extends 'templates/layout.html.twig' %}
+{% if page is not defined %}
+  {% set page = {title: "", subtitle: ""} %}
+{% endif %}
 
 {% if stylesheets is not defined %}
     {% set stylesheets = [] %}

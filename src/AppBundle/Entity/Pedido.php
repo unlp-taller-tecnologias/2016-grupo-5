@@ -50,6 +50,7 @@ class Pedido
 
     public function __construct()
     {
+        $this->fechaApertura = new \DateTime();
         $this->detalle = new ArrayCollection();
     }
 

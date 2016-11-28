@@ -3,9 +3,13 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Producto;
+use AppBundle\Entity\Proveedor;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 /**
  * Producto controller.
@@ -44,6 +48,20 @@ class ProductoController extends Controller
             'form' => $form->createView(),
         ));
     }
+    /**
+     * get state critical product for provider.
+     *
+     * @Route("/ajaxConsultProduct", name="ajax_get_product")
+     * @Method({"POST"})
+     */
+    public function ajaxProductForProviderAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $provider = $request->request->get('id');
+        $criticos = $em->getRepository('AppBundle:Producto')->getCriticalProductFromProvider($provider);
+        $bien = $em->getRepository('AppBundle:Producto')->getGoodProductFromProvider($provider);
+        return new JsonResponse(array('criticos' => $criticos, 'bien'=>$bien));
+    }
 
     /**
      * Displays a form to edit an existing producto entity.
@@ -53,7 +71,7 @@ class ProductoController extends Controller
      */
     public function editAction(Request $request, Producto $producto)
     {
-      return $this->indexAction($request, $sector);
+      return $this->indexAction($request, $producto);
     }
 
     /**

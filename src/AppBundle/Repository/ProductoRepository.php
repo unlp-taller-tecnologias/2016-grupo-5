@@ -10,6 +10,7 @@ namespace AppBundle\Repository;
  */
 class ProductoRepository extends \Doctrine\ORM\EntityRepository
 {
+<<<<<<< HEAD
      public function getStockCritico() {
         
         $query = $this->createQueryBuilder('p')
@@ -20,4 +21,41 @@ class ProductoRepository extends \Doctrine\ORM\EntityRepository
         return $cantidad;
     }
 
+=======
+  public function getCriticalProduct()
+  {
+    return $this->createQueryBuilder('p')
+             ->where('p.stock < p.stockMinimo')
+             ->orderBy('p.nombre', 'ASC')
+             ->getQuery()
+             ->getResult();
+  }
+
+  public function getCriticalProductFromProvider($idProvider)
+  {
+    return $this->createQueryBuilder('p')
+          ->where('p.proveedor = :idProvider')
+          ->setParameter('idProvider', $idProvider)
+          ->andWhere('p.stock <= p.stockMinimo')
+          ->getQuery()->getArrayResult();
+  }
+
+  public function getGoodProductFromProvider($idProvider)
+  {
+    return $this->createQueryBuilder('p')
+          ->where('p.proveedor = :idProvider')
+          ->setParameter('idProvider', $idProvider)
+          ->andWhere('p.stock > p.stockMinimo')
+          ->getQuery()->getArrayResult();
+  }
+
+   public function getCountStockCritico() {
+
+      return $this->createQueryBuilder('p')
+              ->select('count(p.id)')
+              ->where('p.stock <= p.stockMinimo')
+              ->getQuery()
+              ->getSingleScalarResult();
+  }
+>>>>>>> f8620e41d1bf19e7962dd2db3b8981443298664e
 }

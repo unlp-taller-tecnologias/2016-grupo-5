@@ -18,22 +18,22 @@ class ProveedorController extends Controller
      * Lists all proveedor entities.
      *
      * @Route("/", name="proveedor_index")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      */
      public function indexAction(Request $request, Proveedor $proveedor = null)
      {
          $em = $this->getDoctrine()->getManager();
 
          $proveedors = $em->getRepository('AppBundle:Proveedor')->findAll();
-         if (is_null($proveedors)) {
-           $sector = new Proveedor;
+         if (is_null($proveedor)) {
+           $proveedor = new Proveedor;
          }
          $form = $this->createForm('AppBundle\Form\ProveedorType', $proveedor);
          $form->handleRequest($request);
 
          if ($form->isSubmitted() && $form->isValid()) {
              $em = $this->getDoctrine()->getManager();
-             $em->persist($sector);
+             $em->persist($proveedor);
              $em->flush();
 
              return $this->redirectToRoute('proveedor_index');

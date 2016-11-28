@@ -42,6 +42,12 @@ class DetallePedido
     private $pedido;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Producto", inversedBy="detalle_pedido")
+     * @ORM\JoinColumn(name="producto_id", referencedColumnName="id")
+     */
+    private $producto;
+
+    /**
      * Get id
      *
      * @return int
@@ -121,5 +127,29 @@ class DetallePedido
     public function getPedido()
     {
         return $this->pedido;
+    }
+
+    /**
+     * Set producto
+     *
+     * @param \AppBundle\Entity\Producto $producto
+     *
+     * @return DetallePedido
+     */
+    public function setProducto(\AppBundle\Entity\Producto $producto = null)
+    {
+        $this->producto = $producto;
+
+        return $this;
+    }
+
+    /**
+     * Get producto
+     *
+     * @return \AppBundle\Entity\Producto
+     */
+    public function getProducto()
+    {
+        return $this->producto;
     }
 }
