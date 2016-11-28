@@ -19,4 +19,5 @@ class ProductoRepository extends \Doctrine\ORM\EntityRepository
         $cantidad = count($query->getResult());
         return $cantidad;
     }
+
 }
