@@ -10,70 +10,21 @@
 {% block content %}
     <li><a href=""><i class="fa fa-hashtag"></i>{{page.title}}</a></li>
     <li class="active"> {{ page.subtitle }}</li>
-  
-    <label>Fecha inicio</label><input type="text" id="fecha_inicio" value="{{"now"|date("d/m/Y")}}">
-    <label>Fecha fin</label><input type="text" id="fecha_fin" value="{{"now"|date("d/m/Y")}}">
-    <select>
+ <form method="POST" action='{{path('mostrar')}}'>
+    <label>Fecha inicio</label><input type="text" id="fecha_inicio" name="fecha_inicio" value="{{"now"|date("d/m/Y")}}">
+    <label>Fecha fin</label><input type="text" id="fecha_fin" name="fecha_fin" value="{{"now"|date("d/m/Y")}}">
+    <select name="producto_id">
         {% for producto in productos%}
             <option value="{{producto.id}}">{{producto.nombre}}</option>
         {% endfor %}
     </select>       
-        <button type="button" id="botonMostrar">Mostrar</button>
+        <button type="subnit" id="botonMostrar">Mostrar</button>
 
-    <div id="containerPosts"></div>
+ </form>
+    {% if pedidos is not empty %}
+    sarasaaaa
+    {% endif%}
 {% endblock %}
  
-{% block javascript %}
-    {{parent()}}
-       <script>
-        $("#botonMostrar").click(function()
-        {
-            $.ajax({
-                method: "POST",
-                url: "{{ url('datos_producto') }}",
-                dataType: 'json',
-                success: function(data)
-                {
-                    if(data.hasOwnProperty("response") && data.response === "success")
-                    {
-                        if(data.hasOwnProperty("producto"))
-                        {
-                            //http://stackoverflow.com/questions/3710204/how-to-check-if-a-string-is-a-valid-json-string-in-javascript-without-using-try/3710226
-                            if (/^[\],:{}\s]*$/.test(data.producto.replace(/\\["\\\/bfnrtu]/g, '@').
-                                    replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
-                                    replace(/(?:^|:|,)(?:\s*\[)+/g, '')))
-                            {
-                                var posts = JSON.parse(1);
-                                if(posts.length > 0)
-                                {
-                                    var html = "";
-                                    for(d in 1)
-                                    {
-                                        html += "<p>" + JSON.stringify(1) + "</p>";
-                                    }
-                                    $("#containerPosts").append(html);
-                                }
-                            }
-                            else
-                            {
-                                console.log("INVALID JSON STRING");
-                            }
-                        }
-                        else
-                        {
-                            console.log("POSTS NOT FOUND");
-                        }
-                    }
-                },
-                error: function(jqXHR, exception)
-                {
-                    if(jqXHR.status === 405)
-                    {
-                        console.error("METHOD NOT ALLOWED!");
-                    }
-                }
-            });
-        });
-    </script>
-    
-{% endblock %}
+
+   

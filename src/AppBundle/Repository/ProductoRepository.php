@@ -10,18 +10,6 @@ namespace AppBundle\Repository;
  */
 class ProductoRepository extends \Doctrine\ORM\EntityRepository
 {
-<<<<<<< HEAD
-     public function getStockCritico() {
-        
-        $query = $this->createQueryBuilder('p')
-                ->where('p.stock <= p.stockMinimo')
-                ->orderBy('p.nombre', 'ASC')
-                ->getQuery();
-        $cantidad = count($query->getResult());
-        return $cantidad;
-    }
-
-=======
   public function getCriticalProduct()
   {
     return $this->createQueryBuilder('p')
@@ -57,5 +45,8 @@ class ProductoRepository extends \Doctrine\ORM\EntityRepository
               ->getQuery()
               ->getSingleScalarResult();
   }
->>>>>>> f8620e41d1bf19e7962dd2db3b8981443298664e
+  public function datosGrafico($idProducto) {
+      
+      
+  }
 }

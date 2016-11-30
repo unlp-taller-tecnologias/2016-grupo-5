@@ -10,4 +10,21 @@ namespace AppBundle\Repository;
  */
 class DetallePedidoRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function cantidadPorDia($idProducto, $fechaInicio,$fechaFin) {
+
+        $q = $this->getEntityManager()->createQueryBuilder()
+                ->select('p.fechaCierre, SUM(d.cantidadRecibida)')
+                ->from('AppBundle:DetallePedido', 'd')
+                ->join('AppBundle:Pedido', 'p', 'WITH', 'd.pedido=p.id')
+                ->where('p.fechaCierre >= :inicio')
+                ->andWhere('p.fechaCierre <= :fin')
+                ->andWhere('d.producto = :producto')
+                ->groupBy('p.fechaCierre')
+                ->setParameter("inicio", $fechaInicio)
+                ->setParameter("fin", $fechaFin)
+                ->setParameter("producto", $idProducto)
+                ;
+        return $q->getQuery()->getResult();
+    }
+
 }
