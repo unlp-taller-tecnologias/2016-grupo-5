@@ -28,6 +28,23 @@ class ProductoRepository extends \Doctrine\ORM\EntityRepository
           ->getQuery()->getArrayResult();
   }
 
+  public function getProductNotIdealStockFromProvider($idProvider)
+  {
+    return $this->createQueryBuilder('p')
+          ->where('p.proveedor = :idProvider')
+          ->setParameter('idProvider', $idProvider)
+          ->andWhere('p.stock < p.stockIdeal')
+          ->getQuery()->getArrayResult();
+  }
+  public function getProductYesIdealStockFromProvider($idProvider)
+  {
+    return $this->createQueryBuilder('p')
+          ->where('p.proveedor = :idProvider')
+          ->setParameter('idProvider', $idProvider)
+          ->andWhere('p.stock >= p.stockIdeal')
+          ->getQuery()->getArrayResult();
+  }
+
   public function getGoodProductFromProvider($idProvider)
   {
     return $this->createQueryBuilder('p')

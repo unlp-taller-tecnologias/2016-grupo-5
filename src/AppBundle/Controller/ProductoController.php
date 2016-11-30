@@ -58,8 +58,8 @@ class ProductoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $provider = $request->request->get('id');
-        $criticos = $em->getRepository('AppBundle:Producto')->getCriticalProductFromProvider($provider);
-        $bien = $em->getRepository('AppBundle:Producto')->getGoodProductFromProvider($provider);
+        $criticos = $em->getRepository('AppBundle:Producto')->getProductNotIdealStockFromProvider($provider);
+        $bien = $em->getRepository('AppBundle:Producto')->getProductYesIdealStockFromProvider($provider);
         return new JsonResponse(array('criticos' => $criticos, 'bien'=>$bien));
     }
 
