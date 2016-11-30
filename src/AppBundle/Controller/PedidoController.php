@@ -62,11 +62,35 @@ class PedidoController extends Controller
         }
         $em = $this->getDoctrine()->getManager();
         $proveedors = $em->getRepository('AppBundle:Proveedor')->findAll();
-        $detalle = $em->getRepository('AppBundle:Pedido')->findAll();
         return $this->render('pedido/new.html.twig', array(
             'pedido' => $pedido,
             'proveedors' => $proveedors,
-            'detalle' => $detalle,
+        ));
+    }
+
+    /**
+     * Close a pedido entity.
+     *
+     * @Route("/close/{id}", name="pedido_close")
+     * @Method({"GET", "POST"})
+     */
+    public function closeAction(Request $request, Pedido $pedido)
+    {
+        $em = $this->getDoctrine()->getManager();
+        if ($request->isMethod('POST')) {
+            $cant= $request->request->get('cant');
+            $pedido->setFechaCierre(new \DateTime());
+            foreach ( $pedido->getDetalle() as $detallePedido) {
+              $id = $detallePedido->getId();
+              $detallePedido->setCantidadRecibida($cant[$id]);
+              $detallePedido->getProducto()->addStock($cant[$id]);
+              $em->persist($detallePedido);
+              $em->persist($detallePedido->getProducto());
+            }
+            $em->flush();
+        }
+        return $this->render('pedido/close.html.twig', array(
+            'pedido' => $pedido,
         ));
     }
 

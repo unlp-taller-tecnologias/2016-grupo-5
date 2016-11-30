@@ -129,6 +129,34 @@ class Producto
     }
 
     /**
+     * Add stock
+     *
+     * @param integer $stock
+     *
+     * @return Producto
+     */
+    public function addStock($stock)
+    {
+        $this->stock += $stock;
+
+        return $this;
+    }
+
+    /**
+     * sub stock
+     *
+     * @param integer $stock
+     *
+     * @return Producto
+     */
+    public function subStock($stock)
+    {
+        $this->stock -= $stock;
+
+        return $this;
+    }
+
+    /**
      * Get stock
      *
      * @return integer
@@ -185,6 +213,6 @@ class Producto
     {
         return $this->proveedor;
     }
-    
-   
+
+
 }
