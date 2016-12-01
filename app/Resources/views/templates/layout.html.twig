@@ -54,11 +54,14 @@
             </aside>
             <div class="control-sidebar-bg"></div>
         </div>
-
         {% block javascript %}
             <script type="text/javascript" src="{{ asset('lib/jquery/jquery.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('lib/bootstrap/js/bootstrap.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('lib/adminlte/js/app.min.js') }}"></script>
         {% endblock javascript %}
+        {% block script %} {% endblock %}
+         <div class="content">
+        {% block content %}{% endblock %}
+    </div>
     </body>
 </html>
