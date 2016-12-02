@@ -40,20 +40,27 @@ class EnvioController extends Controller
     public function newAction(Request $request)
     {
         $envio = new Envio();
-        $form = $this->createForm('AppBundle\Form\EnvioType', $envio);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+        if ($request->isMethod('POST')) {
+            foreach ($request->request->get('producto') as $id => $cant) {
+              $detallePedido = new DetallePedido();
+              $detallePedido->setPedido($envio);
+              $detallePedido->setCantidadPedida($cant);
+              $producto = $em->getRepository('AppBundle:Producto')->findOneById($id);
+              $detallePedido->setProducto($producto);
+              $em->persist($detallePedido);
+              $em->flush();
+              $envio->adddetalle($detallePedido);
+            }
             $em->persist($envio);
-            $em->flush($envio);
-
-            return $this->redirectToRoute('envio_show', array('id' => $envio->getId()));
+            $em->flush();
         }
-
+        $em = $this->getDoctrine()->getManager();
+        $productos = $em->getRepository('AppBundle:Producto')->findAll();
+        $sectores = $em->getRepository('AppBundle:Sector')->findAll();
         return $this->render('envio/new.html.twig', array(
             'envio' => $envio,
-            'form' => $form->createView(),
+            'productos' => $productos,
+            'sectores' => $sectores
         ));
     }
 
