@@ -152,4 +152,5 @@ class DetallePedido
     {
         return $this->producto;
     }
+
 }

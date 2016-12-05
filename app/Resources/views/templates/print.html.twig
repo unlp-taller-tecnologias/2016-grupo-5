@@ -1,0 +1,39 @@
+{% extends 'templates/layout.html.twig' %}
+{% if page is not defined %}
+  {% set page = {title: "", subtitle: ""} %}
+{% endif %}
+{% block stylesheet %}
+    <link type="text/css" rel="stylesheet" href="{{ app.request.server.get('DOCUMENT_ROOT') }}{{ asset('lib/bootstrap/css/bootstrap.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ app.request.server.get('DOCUMENT_ROOT') }}{{ asset('lib/bootstrap/css/bootstrap-theme.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ app.request.server.get('DOCUMENT_ROOT') }}{{ asset('lib/adminlte/css/AdminLTE.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ app.request.server.get('DOCUMENT_ROOT') }}{{ asset('lib/adminlte/css/skins/_all-skins.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ app.request.server.get('DOCUMENT_ROOT') }}{{ asset('lib/font-awesome/css/font-awesome.min.css') }}" />
+    <style>
+    .content-wrapper{
+      margin-left: 0!important;
+      background-color: #fff;
+    }
+    </style>
+{% endblock stylesheet %}
+{% block cleanHeader %}
+{% endblock %}
+{% block cleanFooter %}
+{% endblock %}
+{% block removeWrapper %}
+{% endblock %}
+
+{% block contentWrapper %}
+    <section class="content-header">
+        <h1>
+            {{page.title}}
+            <small>{{page.subtitle}}</small>
+        </h1>
+        <ol class="breadcrumb">
+            {% block breadcrumb %}{% endblock %}
+        </ol>
+    </section>
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+
+{% endblock %}

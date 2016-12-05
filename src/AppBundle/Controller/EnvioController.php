@@ -3,9 +3,14 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Envio;
+use AppBundle\Entity\Producto;
+use AppBundle\Entity\Sector;
+use AppBundle\Entity\DetalleEnvio;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Envio controller.
@@ -40,29 +45,69 @@ class EnvioController extends Controller
     public function newAction(Request $request)
     {
         $envio = new Envio();
-        if ($request->isMethod('POST')) {
-            foreach ($request->request->get('producto') as $id => $cant) {
-              $detallePedido = new DetallePedido();
-              $detallePedido->setPedido($envio);
-              $detallePedido->setCantidadPedida($cant);
-              $producto = $em->getRepository('AppBundle:Producto')->findOneById($id);
-              $detallePedido->setProducto($producto);
-              $em->persist($detallePedido);
-              $em->flush();
-              $envio->adddetalle($detallePedido);
-            }
-            $em->persist($envio);
-            $em->flush();
-        }
         $em = $this->getDoctrine()->getManager();
         $productos = $em->getRepository('AppBundle:Producto')->findAll();
         $sectores = $em->getRepository('AppBundle:Sector')->findAll();
+        if ($request->isMethod('POST')) {
+            $sector = $em->getRepository('AppBundle:Sector')->findOneById($request->request->get('sector'));
+            $envio->setSector($sector);
+            $envio->setResponsable($request->request->get('responsable'));
+            $em->persist($envio);
+            foreach ($request->request->get('producto') as $id => $cant) {
+              $detalleEnvio = new DetalleEnvio();
+              $detalleEnvio->setEnvio($envio);
+              $detalleEnvio->setCantidad($cant);
+              $producto = $em->getRepository('AppBundle:Producto')->findOneById($id);
+              $detalleEnvio->setProducto($producto);
+              if ($detalleEnvio->isValid()) {
+                $em->persist($detalleEnvio);
+                $producto->subStock($detalleEnvio->getCantidad());
+                $em->persist($producto);
+                $envio->adddetalle($detalleEnvio);
+                $em->persist($envio);
+              }else{
+                return $this->render('envio/new.html.twig', array(
+                    'envio' => $envio,
+                    'productos' => $productos,
+                    'sectores' => $sectores,
+                    'error' => "hay productos donde la cantidad de elementos a enviar es superior al stock, revise el listado"
+                ));
+              }
+            }
+            $em->flush();
+            return $this->redirectToRoute('envio_index');
+        }
         return $this->render('envio/new.html.twig', array(
             'envio' => $envio,
             'productos' => $productos,
             'sectores' => $sectores
         ));
     }
+
+    /**
+     * print a envio entity.
+     *
+     * @Route("/print/{id}", name="envio_print")
+     * @Method({"GET"})
+     */
+    public function printAction(Envio $envio)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $html = $this->renderView('envio/print.html.twig', array(
+            'envio'  => $envio
+        ));
+        $sectorName= str_replace(" ", "",ucwords(strtolower($envio->getSector()->getNombre())));
+        $name = "envio_".$sectorName."_".$envio->getFecha()->format('m-d-Y').".pdf";
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            200,
+            array(
+                'Content-Type'          => 'application/pdf',
+                'Content-Disposition'   => 'attachment; filename='.$name
+            )
+        );
+    }
+
 
     /**
      * Finds and displays a envio entity.

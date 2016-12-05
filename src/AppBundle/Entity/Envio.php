@@ -54,7 +54,8 @@ class Envio
 
     public function __construct()
     {
-        $this->detalle = new ArrayCollection();
+      $this->fecha = new \DateTime();
+      $this->detalle = new ArrayCollection();
     }
     /**
      * Get id

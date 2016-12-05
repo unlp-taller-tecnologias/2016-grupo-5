@@ -4,9 +4,11 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Pedido;
 use AppBundle\Entity\DetallePedido;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Pedido controller.
@@ -92,6 +94,29 @@ class PedidoController extends Controller
         return $this->render('pedido/close.html.twig', array(
             'pedido' => $pedido,
         ));
+    }
+    /**
+     * print a pedido entity.
+     *
+     * @Route("/print/{id}", name="pedido_print")
+     * @Method({"GET"})
+     */
+    public function printAction(Pedido $pedido)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $html = $this->renderView('pedido/print.html.twig', array(
+            'pedido'  => $pedido
+        ));
+        $proveedorName= str_replace(" ", "",ucwords(strtolower($pedido->getProveedor()->getNombre())));
+        $name = "pedido_".$proveedorName."_".$pedido->getFechaApertura()->format('m-d-Y').".pdf";
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            200,
+            array(
+                'Content-Type'          => 'application/pdf',
+                'Content-Disposition'   => 'attachment; filename='.$name
+            )
+        );
     }
 
     /**
