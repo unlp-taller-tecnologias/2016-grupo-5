@@ -127,11 +127,8 @@ class PedidoController extends Controller
      */
     public function showAction(Pedido $pedido)
     {
-        $deleteForm = $this->createDeleteForm($pedido);
-
         return $this->render('pedido/show.html.twig', array(
             'pedido' => $pedido,
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 

@@ -117,11 +117,8 @@ class EnvioController extends Controller
      */
     public function showAction(Envio $envio)
     {
-        $deleteForm = $this->createDeleteForm($envio);
-
         return $this->render('envio/show.html.twig', array(
             'envio' => $envio,
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 
