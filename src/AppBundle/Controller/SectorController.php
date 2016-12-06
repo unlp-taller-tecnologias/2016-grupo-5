@@ -57,25 +57,22 @@ class SectorController extends Controller
         return $this->indexAction($request, $sector);
     }
 
+
     /**
      * Deletes a sector entity.
      *
-     * @Route("/{id}", name="sector_delete")
-     * @Method("DELETE")
+     * @Route("/{id}", name="sector_toggleActive")
+     * @Method("GET")
      */
-    public function deleteAction(Request $request, Sector $sector)
+    public function toggleActiveAction(Sector $sector)
     {
-        $form = $this->createDeleteForm($sector);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($sector);
-            $em->flush($sector);
-        }
-
+        $em = $this->getDoctrine()->getManager();
+        $sector->setActive(!$sector->getActive());
+        $em->persist($sector);
+        $em->flush($sector);
         return $this->redirectToRoute('sector_index');
     }
+
 
     /**
      * Creates a form to delete a sector entity.

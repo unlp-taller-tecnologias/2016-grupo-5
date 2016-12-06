@@ -34,11 +34,17 @@ class Sector
      */
     private $envios;
 
+    /**
+     * @var boolean
+     * @ORM\Column(name="active", type="boolean", nullable=true, options={"default":true})
+     */
+    private $active;
+
     public function __construct()
     {
         $this->envios = new ArrayCollection();
     }
-    
+
     public function __toString()
     {
         return $this->getNombre();
@@ -111,5 +117,29 @@ class Sector
     public function getEnvios()
     {
         return $this->envios;
+    }
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     *
+     * @return Sector
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean
+     */
+    public function getActive()
+    {
+        return $this->active;
     }
 }

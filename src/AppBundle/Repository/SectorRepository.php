@@ -10,4 +10,13 @@ namespace AppBundle\Repository;
  */
 class SectorRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function findAllActive()
+    {
+      return $this->createQueryBuilder('s')
+               ->where('s.active = 1')
+               ->getQuery()
+               ->getResult();
+    }
+
 }

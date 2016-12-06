@@ -86,15 +86,18 @@
                     </thead>
                     <tbody>
                       {% for item in productos %}
-                      <tr>
+                      <tr {% if not item.active %} class="danger" {% endif %}>
                         <td>{{ item.id }}</td>
                         <td>{{ item.nombre }}</td>
                         <td>{{ item.stockMinimo }}</td>
                         <td>{{ item.stockIdeal }}</td>
                         <td>{{ item.stock }}</td>
                         <td>{{ item.proveedor.nombre }}</td>
-                        <td class="table-operations">
-                          <a href="{{ path('producto_edit', { 'id': item.id }) }}" title="Editar"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                        <td class="table-operations row">
+                          {% if item.active %}
+                            <a class="label label-primary btn-xs col-md-6" href="{{ path('producto_edit', { 'id': item.id }) }}" type="button">Editar</a>
+                          {% endif %}
+                          <a class="label label-{% if item.active %}danger{% else %}success{% endif %} btn-xs col-md-6" href="{{ path('producto_toggleActive', { 'id': item.id }) }}" type="button">{% if item.active %} Eliminar {% else %} Recuperar {% endif %}</a>
                         </td>
                       </tr>
                       {% endfor %}

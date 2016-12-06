@@ -77,20 +77,15 @@ class ProductoController extends Controller
     /**
      * Deletes a producto entity.
      *
-     * @Route("/{id}", name="producto_delete")
-     * @Method("DELETE")
+     * @Route("/{id}", name="producto_toggleActive")
+     * @Method("GET")
      */
-    public function deleteAction(Request $request, Producto $producto)
+    public function toggleActiveAction(Producto $producto)
     {
-        $form = $this->createDeleteForm($producto);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($producto);
-            $em->flush($producto);
-        }
-
+        $em = $this->getDoctrine()->getManager();
+        $producto->setActive(!$producto->getActive());
+        $em->persist($producto);
+        $em->flush($producto);
         return $this->redirectToRoute('producto_index');
     }
 

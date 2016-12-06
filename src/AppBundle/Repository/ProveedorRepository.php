@@ -10,4 +10,13 @@ namespace AppBundle\Repository;
  */
 class ProveedorRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function findAllActive()
+    {
+      return $this->createQueryBuilder('p')
+               ->where('p.active = 1')
+               ->getQuery()
+               ->getResult();
+    }
+
 }

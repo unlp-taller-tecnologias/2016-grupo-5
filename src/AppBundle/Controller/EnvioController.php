@@ -46,8 +46,8 @@ class EnvioController extends Controller
     {
         $envio = new Envio();
         $em = $this->getDoctrine()->getManager();
-        $productos = $em->getRepository('AppBundle:Producto')->findAll();
-        $sectores = $em->getRepository('AppBundle:Sector')->findAll();
+        $productos = $em->getRepository('AppBundle:Producto')->findAllActive();
+        $sectores = $em->getRepository('AppBundle:Sector')->findAllActive();
         if ($request->isMethod('POST')) {
             $sector = $em->getRepository('AppBundle:Sector')->findOneById($request->request->get('sector'));
             $envio->setSector($sector);
@@ -125,64 +125,4 @@ class EnvioController extends Controller
         ));
     }
 
-    /**
-     * Displays a form to edit an existing envio entity.
-     *
-     * @Route("/{id}/edit", name="envio_edit")
-     * @Method({"GET", "POST"})
-     */
-    public function editAction(Request $request, Envio $envio)
-    {
-        $deleteForm = $this->createDeleteForm($envio);
-        $editForm = $this->createForm('AppBundle\Form\EnvioType', $envio);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('envio_edit', array('id' => $envio->getId()));
-        }
-
-        return $this->render('envio/edit.html.twig', array(
-            'envio' => $envio,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    /**
-     * Deletes a envio entity.
-     *
-     * @Route("/{id}", name="envio_delete")
-     * @Method("DELETE")
-     */
-    public function deleteAction(Request $request, Envio $envio)
-    {
-        $form = $this->createDeleteForm($envio);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($envio);
-            $em->flush($envio);
-        }
-
-        return $this->redirectToRoute('envio_index');
-    }
-
-    /**
-     * Creates a form to delete a envio entity.
-     *
-     * @param Envio $envio The envio entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(Envio $envio)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('envio_delete', array('id' => $envio->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
-    }
 }

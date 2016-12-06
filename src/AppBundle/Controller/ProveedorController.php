@@ -60,20 +60,15 @@ class ProveedorController extends Controller
     /**
      * Deletes a proveedor entity.
      *
-     * @Route("/{id}", name="proveedor_delete")
-     * @Method("DELETE")
+     * @Route("/{id}", name="proveedor_toggleActive")
+     * @Method("GET")
      */
-    public function deleteAction(Request $request, Proveedor $proveedor)
+    public function toggleActiveAction(Proveedor $proveedor)
     {
-        $form = $this->createDeleteForm($proveedor);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($proveedor);
-            $em->flush($proveedor);
-        }
-
+        $em = $this->getDoctrine()->getManager();
+        $proveedor->setActive(!$proveedor->getActive());
+        $em->persist($proveedor);
+        $em->flush($proveedor);
         return $this->redirectToRoute('proveedor_index');
     }
 

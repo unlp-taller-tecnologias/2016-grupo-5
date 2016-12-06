@@ -15,6 +15,15 @@ class ProductoRepository extends \Doctrine\ORM\EntityRepository
     return $this->createQueryBuilder('p')
              ->where('p.stock < p.stockMinimo')
              ->orderBy('p.nombre', 'ASC')
+             ->andWhere('p.active = 1')
+             ->getQuery()
+             ->getResult();
+  }
+
+  public function findAllActive()
+  {
+    return $this->createQueryBuilder('p')
+             ->where('p.active = 1')
              ->getQuery()
              ->getResult();
   }
@@ -25,6 +34,7 @@ class ProductoRepository extends \Doctrine\ORM\EntityRepository
           ->where('p.proveedor = :idProvider')
           ->setParameter('idProvider', $idProvider)
           ->andWhere('p.stock <= p.stockMinimo')
+          ->andWhere('p.active = 1')
           ->getQuery()->getArrayResult();
   }
 
@@ -34,6 +44,7 @@ class ProductoRepository extends \Doctrine\ORM\EntityRepository
           ->where('p.proveedor = :idProvider')
           ->setParameter('idProvider', $idProvider)
           ->andWhere('p.stock < p.stockIdeal')
+          ->andWhere('p.active = 1')
           ->getQuery()->getArrayResult();
   }
   public function getProductYesIdealStockFromProvider($idProvider)
@@ -42,6 +53,7 @@ class ProductoRepository extends \Doctrine\ORM\EntityRepository
           ->where('p.proveedor = :idProvider')
           ->setParameter('idProvider', $idProvider)
           ->andWhere('p.stock >= p.stockIdeal')
+          ->andWhere('p.active = 1')
           ->getQuery()->getArrayResult();
   }
 
@@ -51,6 +63,7 @@ class ProductoRepository extends \Doctrine\ORM\EntityRepository
           ->where('p.proveedor = :idProvider')
           ->setParameter('idProvider', $idProvider)
           ->andWhere('p.stock > p.stockMinimo')
+          ->andWhere('p.active = 1')
           ->getQuery()->getArrayResult();
   }
 
@@ -59,11 +72,12 @@ class ProductoRepository extends \Doctrine\ORM\EntityRepository
       return $this->createQueryBuilder('p')
               ->select('count(p.id)')
               ->where('p.stock <= p.stockMinimo')
+              ->andWhere('p.active = 1')
               ->getQuery()
               ->getSingleScalarResult();
   }
   public function datosGrafico($idProducto) {
-      
-      
+
+
   }
 }

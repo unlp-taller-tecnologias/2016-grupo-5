@@ -22,7 +22,7 @@ class EstadisticaController extends Controller {
     public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
-        $productos = $em->getRepository('AppBundle:Producto')->findAll();
+        $productos = $em->getRepository('AppBundle:Producto')->findAllActive();
         return $this->render('estadistica/estadistica.html.twig', [
                     'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..'), 'productos' => $productos,'pedidos'=> null,
         ]);
@@ -35,14 +35,14 @@ class EstadisticaController extends Controller {
     public function mostrarAction(){
         $em = $this->getDoctrine()->getManager();
 
-        $productos = $em->getRepository('AppBundle:Producto')->findAll();
+        $productos = $em->getRepository('AppBundle:Producto')->findAllActive();
         $pedidos = $em->getRepository('AppBundle:DetallePedido')->cantidadPorDia($_POST['producto_id'], '1990-04-12 00:00:00', '2016-12-1 00:00:00');
         //$pedidos = $em->getRepository('AppBundle:DetalleEnvio')->cantidadPorDia();
         return $this->render('estadistica/estadistica.html.twig', [
                     'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..'), 'productos' => $productos, 'pedidos'=>$pedidos,
         ]);
-        
+
     }
-    
+
 
 }
