@@ -17,14 +17,12 @@
         {% for producto in productos%}
             <option value="{{producto.id}}">{{producto.nombre}}</option>
         {% endfor %}
-    </select>       
-        <button type="subnit" id="botonMostrar">Mostrar</button>
-
+    </select>
+    <button type="subnit" id="botonMostrar" class="btn bg-olive btn-flat margin ">Mostrar</button>
  </form>
     {% if pedidos is not empty %}
     asd
-    
+
    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     {% endif%}
 {% endblock %}
-

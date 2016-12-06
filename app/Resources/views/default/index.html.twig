@@ -84,14 +84,18 @@
                         <th style="width: 10px">#</th>
                         <th>Proveedor</th>
                         <th>Fecha de realizacion</th>
-                        <th>Cerrar pedido</th>
+                        <th>Acciones</th>
                     </tr>
                     {% for pedido in pedidosAbiertos %}
                         <tr>
                             <td>{{pedido.id}}</td>
                             <td>{{pedido.proveedor.nombre}}</td>
                             <td>{{pedido.fechaApertura|date('d/m/Y')}}</td>
-                            <td> <a href="{{path('pedido_close', { 'id': pedido.id })}}"><i class='fa fa-check-square'></i></a></td>
+                            <td>
+                              <a class="label label-primary btn-xs col-md-4" href="{{ path('pedido_print', { 'id': pedido.id }) }}" type="button">imprimir</a>
+                              <a class="label label-danger btn-xs col-md-4" href="{{ path('pedido_close', { 'id': pedido.id }) }}" type="button">cerrar</a>
+                              <a class="label label-warning btn-xs col-md-4" href="{{ path('pedido_show', { 'id': pedido.id }) }}" type="button">ver</a>
+                            </td>
                     </tr>
                     {% endfor %}
                 </tbody>
