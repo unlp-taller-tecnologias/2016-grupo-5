@@ -39,6 +39,12 @@ class Proveedor
      */
     private $pedidos;
 
+    /**
+     * @var boolean
+     * @ORM\Column(name="active", type="boolean", nullable=true, options={"default":true})
+     */
+    private $active;
+
     public function __construct()
     {
         $this->productos = new ArrayCollection();
@@ -149,5 +155,29 @@ class Proveedor
     public function getPedidos()
     {
         return $this->pedidos;
+    }
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     *
+     * @return Proveedor
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean
+     */
+    public function getActive()
+    {
+        return $this->active;
     }
 }

@@ -1,40 +1,61 @@
 {% extends 'templates/default.html.twig' %}
-{% block content %}
-    <h1>Envios list</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Fecha</th>
-                <th>Responsable</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for envio in envios %}
-            <tr>
-                <td><a href="{{ path('envio_show', { 'id': envio.id }) }}">{{ envio.id }}</a></td>
-                <td>{% if envio.fecha %}{{ envio.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ envio.responsable }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('envio_show', { 'id': envio.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('envio_edit', { 'id': envio.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+{% set page =
+    {
+        "title": "Envio",
+        "subtitle": "Inicio",
+        "section": "Envio"
+    }
+%}
 
-    <ul>
-        <li>
-            <a href="{{ path('envio_new') }}">Create a new envio</a>
-        </li>
-    </ul>
+{% block breadcrumb %}
+    <li><a href=""><i class="fa fa-hashtag"></i>{{page.title}}</a></li>
+    <li class="active"> {{ page.subtitle }}</li>
 {% endblock %}
+
+
+{% block content %}
+<div class="box">
+    <div class="box-body">
+        <div class="dataTables_wrapper form-inline dt-bootstrap">
+            <table id="table" class="table dataTable table-bordered table-hover">
+              <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>Sector</th>
+                      <th>Fecha</th>
+                      <th>Responsable</th>
+                      <th>Acciones</th>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for envio in envios %}
+                  <tr>
+                      <td>{{ envio.id }}</td>
+                      <td>{{ envio.sector.nombre }}</td>
+                      <td>{{ envio.fecha |date('Y-m-d H:i:s') }}</td>
+                      <td>{{ envio.responsable }}</td>
+                      <td class="row">
+                        <a class="label label-primary btn-xs col-md-6" href="{{ path('envio_print', { 'id': envio.id }) }}" type="button">imprimir</a>
+                        <a class="label label-warning btn-xs col-md-6" href="{{ path('envio_show', { 'id': envio.id }) }}" type="button">ver</a>
+                      </td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+        </table>
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('lib/bootstrap-datatables/jquery.dataTables.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('lib/bootstrap-datatables/dataTables.bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/DataTable.ready.js') }}"></script>
+{% endblock javascript %}
+{% block stylesheet %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('lib/bootstrap-datatables/dataTables.bootstrap.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/DataTable.css') }}" />
+{% endblock stylesheet %}

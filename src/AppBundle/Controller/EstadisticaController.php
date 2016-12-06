@@ -23,7 +23,7 @@ class EstadisticaController extends Controller {
     public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
-        $productos = $em->getRepository('AppBundle:Producto')->findAll();
+        $productos = $em->getRepository('AppBundle:Producto')->findAllActive();
         return $this->render('estadistica/estadistica.html.twig', [
                     'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..'), 'productos' => $productos,'pedidos'=> null,
         ]);
@@ -38,6 +38,7 @@ class EstadisticaController extends Controller {
     public function mostrarAction()
     {
         $em = $this->getDoctrine()->getManager();
+<<<<<<< HEAD
         $productos = $em->getRepository('AppBundle:Producto')->findAll();
         $pedidos = $em->getRepository('AppBundle:DetallePedido')->cantidadPorDia($_POST['producto_id'], '1990-04-12 00:00:00', '2016-12-1 00:00:00');
         //$pedidos = $em->getRepository('AppBundle:DetalleEnvio')->cantidadPorDia();
@@ -65,5 +66,17 @@ class EstadisticaController extends Controller {
 
         return new JsonResponse(array($pedidos));
     }
+=======
+
+        $productos = $em->getRepository('AppBundle:Producto')->findAllActive();
+        $pedidos = $em->getRepository('AppBundle:DetallePedido')->cantidadPorDia($_POST['producto_id'], '1990-04-12 00:00:00', '2016-12-1 00:00:00');
+        //$pedidos = $em->getRepository('AppBundle:DetalleEnvio')->cantidadPorDia();
+        return $this->render('estadistica/estadistica.html.twig', [
+                    'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..'), 'productos' => $productos, 'pedidos'=>$pedidos,
+        ]);
+
+    }
+
+>>>>>>> 5d5ff8d286bc184ef4b35cc3da819de99800f39f
 
 }

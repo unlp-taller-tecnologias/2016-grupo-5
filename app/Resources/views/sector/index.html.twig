@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="box-footer">
-              <button type="submit" class="btn btn-success pull-right"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+              <button type="submit" class="btn bg-olive btn-flat margin pull-right">Guardar</button>
           </div>
         {{ form_end(form) }}
     </div>
@@ -45,11 +45,14 @@
                     </thead>
                     <tbody>
                       {% for item in sectors %}
-                      <tr>
+                      <tr {% if not item.active %} class="danger" {% endif %}>
                         <td>{{ item.id }}</td>
                         <td>{{ item.nombre }}</td>
-                        <td class="table-operations">
-                          <a href="{{ path('sector_edit', { 'id': item.id }) }}" title="Editar"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                        <td class="table-operations row">
+                          {% if item.active %}
+                            <a class="label label-primary btn-xs col-md-6" href="{{ path('sector_edit', { 'id': item.id }) }}" type="button">Editar</a>
+                          {% endif %}
+                          <a class="label label-{% if item.active %}danger{% else %}success{% endif %} btn-xs col-md-6" href="{{ path('sector_toggleActive', { 'id': item.id }) }}" type="button">{% if item.active %} Eliminar {% else %} Recuperar {% endif %}</a>
                         </td>
                       </tr>
                       {% endfor %}

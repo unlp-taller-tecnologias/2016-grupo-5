@@ -1,0 +1,54 @@
+{% extends 'templates/print.html.twig' %}
+{% set page =
+    {
+        "title": "Pedido",
+        "subtitle": "listado",
+        "section": "Pedido"
+    }
+%}
+{% block content %}
+<div class="box">
+    <div class="box-header">
+      <div class="col-xs-6">
+          <label>Proveedor</label>
+          <div class="form-control">
+            {{ pedido.proveedor.nombre}}
+          </div>
+      </div>
+      <div class="col-xs-3">
+          <label>Fecha Apertura</label>
+          <div class="form-control">
+            {{ pedido.fechaApertura|date("m/d/Y")}}
+          </div>
+      </div>
+      <div class="col-xs-3">
+          <label>Fecha Cierre</label>
+          <div class="form-control">
+            {{ pedido.fechaCierre|date("m/d/Y")}}
+          </div>
+      </div>
+    </div>
+    <div class="box-body no-padding">
+            <table class="table table table-condensed">
+                <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>Nombre</th>
+                      <th>Cantidad Pedida</th>
+                      <th>Cantidad Recibida</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for item in pedido.detalle %}
+                      <tr>
+                        <td>{{item.id}}</td>
+                        <td>{{item.producto.nombre}}</td>
+                        <td>{{item.cantidadPedida}}</td>
+                        <td><div class="form-control"></div></td>
+                      </tr>
+                  {% endfor %}
+                </tbody>
+            </table>
+    </div>
+</div>
+{% endblock %}

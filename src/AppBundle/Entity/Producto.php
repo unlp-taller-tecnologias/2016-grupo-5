@@ -57,6 +57,12 @@ class Producto
     private $proveedor;
 
     /**
+     * @var boolean
+     * @ORM\Column(name="active", type="boolean", nullable=true, options={"default":true})
+     */
+    private $active;
+
+    /**
      * Get id
      *
      * @return int
@@ -215,4 +221,28 @@ class Producto
     }
 
 
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     *
+     * @return Producto
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
 }

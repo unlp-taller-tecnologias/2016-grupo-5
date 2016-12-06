@@ -1,4 +1,5 @@
 $(function() {
+      $('#productosAdd').select2();
       $('#appbundle_pedido_proveedor').change(function() {
         $.ajax({
           method: "POST",

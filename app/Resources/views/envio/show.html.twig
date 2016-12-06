@@ -1,36 +1,85 @@
 {% extends 'templates/default.html.twig' %}
+{% set page =
+    {
+        "title": "Envio",
+        "subtitle": "Ver",
+        "section": "Envio"
+    }
+%}
+
+{% block breadcrumb %}
+    <li><a href=""><i class="fa fa-hashtag"></i>{{page.title}}</a></li>
+    <li class="active"> {{ page.subtitle }}</li>
+{% endblock %}
 
 {% block content %}
-    <h1>Envio</h1>
-
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ envio.id }}</td>
-            </tr>
-            <tr>
-                <th>Fecha</th>
-                <td>{% if envio.fecha %}{{ envio.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Responsable</th>
-                <td>{{ envio.responsable }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('envio_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('envio_edit', { 'id': envio.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+<div>
+    <div class="box">
+        <div class="box-header">
+          <div class="col-md-4">
+              <label>Sector</label>
+              <div class="form-control">
+                <span>{{ envio.sector.nombre|title}}</option>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <label>Fecha</label>
+              <div class="form-control">
+                <span>{{ envio.fecha|date("m/d/Y")}}</option>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <label>Responsable</label>
+              <div class="form-control">
+                <span>{{ envio.responsable|title}}</option>
+              </div>
+          </div>
+        </div>
+        <div class="box-body">
+            <div class=" form-inline dt-bootstrap">
+                <table id="table" class="table dataTable table-bordered table-hover">
+                    <thead>
+                      <tr>
+                          <th>#</th>
+                          <th>Nombre</th>
+                          <th>Cantidad</th>
+                      </tr>
+                    </thead>
+                    <tbody id="listProduct">
+                      {% for item in envio.detalle %}
+                          <tr>
+                            <td>{{item.id}}</td>
+                            <td>{{item.producto.nombre}}</td>
+                            <td>{{item.cantidad}}</td>
+                          </tr>
+                      {% endfor %}
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Cantidad</th>
+                      </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="box-footer">
+              <a href="{{ path('envio_index')}}" class="btn bg-olive btn-flat margin pull-right">Volver</a>
+        </div>
+    </div>
+</div>
 {% endblock %}
+{% block stylesheet %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('lib/bootstrap-datatables/dataTables.bootstrap.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/DataTable.css') }}" />
+{% endblock stylesheet %}
+
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('lib/bootstrap-datatables/jquery.dataTables.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('lib/bootstrap-datatables/dataTables.bootstrap.min.js') }}"></script>
+    </script>
+{% endblock javascript %}

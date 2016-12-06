@@ -34,6 +34,12 @@ class DetalleEnvio
      */
     private $envio;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Producto", inversedBy="detalle_pedido")
+     * @ORM\JoinColumn(name="producto_id", referencedColumnName="id")
+     */
+    private $producto;
+
     public function __ToString(){
       return $this->getCantidadPedida();
     }
@@ -142,5 +148,38 @@ class DetalleEnvio
     public function getEnvio()
     {
         return $this->envio;
+    }
+
+
+    public function isValid(){
+      if ($this->getProducto()->getStock() >= $this->getCantidad()) {
+        return true;
+      }else {
+        return false;
+      }
+    }
+
+    /**
+     * Set producto
+     *
+     * @param \AppBundle\Entity\Producto $producto
+     *
+     * @return DetalleEnvio
+     */
+    public function setProducto(\AppBundle\Entity\Producto $producto = null)
+    {
+        $this->producto = $producto;
+
+        return $this;
+    }
+
+    /**
+     * Get producto
+     *
+     * @return \AppBundle\Entity\Producto
+     */
+    public function getProducto()
+    {
+        return $this->producto;
     }
 }

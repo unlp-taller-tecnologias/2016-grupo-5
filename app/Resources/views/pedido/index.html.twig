@@ -36,8 +36,9 @@
                       <td>{% if pedido.fechaApertura %}{{ pedido.fechaApertura|date('Y-m-d H:i:s') }}{% endif %}</td>
                       <td>{% if pedido.fechaCierre %}{{ pedido.fechaCierre|date('Y-m-d H:i:s') }}{% endif %}</td>
                       <td class="row">
-                        <a class="label label-primary btn-xs col-md-6" href="{{ path('pedido_close', { 'id': pedido.id }) }}" type="button">imprimir</a>
-                        {% if pedido.fechaCierre is null %} <a class="label label-danger btn-xs col-md-6" href="{{ path('pedido_close', { 'id': pedido.id }) }}" type="button">cerrar</a>{% endif %}
+                        <a class="label label-primary btn-xs col-md-4" href="{{ path('pedido_print', { 'id': pedido.id }) }}" type="button">imprimir</a>
+                        {% if pedido.fechaCierre is null %} <a class="label label-danger btn-xs col-md-4" href="{{ path('pedido_close', { 'id': pedido.id }) }}" type="button">cerrar</a>{% endif %}
+                        <a class="label label-warning btn-xs col-md-4" href="{{ path('pedido_show', { 'id': pedido.id }) }}" type="button">ver</a>
                       </td>
                   </tr>
               {% endfor %}
