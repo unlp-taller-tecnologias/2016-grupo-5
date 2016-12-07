@@ -1,0 +1,48 @@
+{% extends 'templates/default.html.twig' %}
+
+{% set page =
+    {
+        "title": "Producto",
+        "subtitle": "Actualizacion de Stock",
+        "section": "Producto"
+    }
+%}
+
+{% block breadcrumb %}
+    <li><a href=""><i class="fa fa-hashtag"></i>{{ page.title }}</a></li>
+    <li class="active"> {{ page.subtitle }} </li>
+{% endblock %}
+
+{% block content %}
+<div>
+    <div class="box box-primary">
+        <div class="box-body">
+            <form class="" action="{{path('producto_update')}}" method="post">
+              <div class="dataTables_wrapper form-inline dt-bootstrap">
+                  <table id="table" class="table table-bordered table-hover">
+                      <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th>Stock Actual</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for item in productos %}
+                          <tr {% if not item.active %} class="danger" {% endif %}>
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.nombre }}</td>
+                            <td><input class="form-control" name="producto[{{ item.id }}]" value="{{ item.stock }}" type="number"></td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                  </table>
+              </div>
+              <div class="box-footer">
+                  <button type="submit" class="btn bg-olive btn-flat margin pull-right">Actualizar</button>
+              </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -62,7 +62,6 @@ class PedidoController extends MainController
             $em->persist($pedido);
             $em->flush();
         }
-        $em = $this->getDoctrine()->getManager();
         $proveedors = $em->getRepository('AppBundle:Proveedor')->findAllActive();
         return $this->frontRender('pedido/new.html.twig', array(
             'pedido' => $pedido,

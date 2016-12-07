@@ -14,10 +14,8 @@
       <span>Pedidos</span>
     </a>
     <ul class="treeview-menu">
-
         <li ><a href="{{ path('pedido_index')}}">Listar</a></li>
         <li ><a href="{{ path('pedido_new')}}">Crear</a></li>
-
     </ul>
 </li>
 <li class="treeview  {% if page.title == "Envio" %} active {% endif %}" >
@@ -33,9 +31,14 @@
 </li>
 <li class="treeview {% if page.title == "Producto" %} active {% endif %}" >
     <a href="{{ path('producto_index')}}">
-    <i class="fa fa-medkit "></i>
+      <i class="fa fa-medkit "></i>
       <span>Productos</span>
     </a>
+    <span class="pull-right-container">
+    </span>
+    <ul class="treeview-menu">
+        <li ><a href="{{ path('producto_update')}}">Actualizar Stock</a></li>
+    </ul>
 </li>
 <li class="treeview  {% if page.title == "Sector" %} active {% endif %}" >
     <a href="{{ path('sector_index')}}">
