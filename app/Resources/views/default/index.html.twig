@@ -58,16 +58,18 @@
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
-            <div class="small-box bg-red-gradient" role="button" >
-                <div class="inner">
-                    <h3>{{ stockCritico}}</h3>
+            <a href="{{ path('producto_critical') }}">
+              <div class="small-box bg-red-gradient" role="button" >
+                  <div class="inner">
+                      <h3>{{ stockCritico}}</h3>
 
-                    <p>Productos en stock critico</p>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-exclamation-triangle"></i>
-                </div>
-            </div>
+                      <p>Productos en stock critico</p>
+                  </div>
+                  <div class="icon">
+                      <i class="fa fa-exclamation-triangle"></i>
+                  </div>
+              </div>
+            </a>
         </div>
         <!-- ./col -->
     </div>

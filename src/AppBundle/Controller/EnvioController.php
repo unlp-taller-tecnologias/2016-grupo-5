@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @Route("envio")
  */
-class EnvioController extends Controller
+class EnvioController extends MainController
 {
     /**
      * Lists all envio entities.
@@ -31,7 +31,7 @@ class EnvioController extends Controller
 
         $envios = $em->getRepository('AppBundle:Envio')->findAll();
 
-        return $this->render('envio/index.html.twig', array(
+        return $this->frontRender('envio/index.html.twig', array(
             'envios' => $envios,
         ));
     }
@@ -66,7 +66,7 @@ class EnvioController extends Controller
                 $envio->adddetalle($detalleEnvio);
                 $em->persist($envio);
               }else{
-                return $this->render('envio/new.html.twig', array(
+                return $this->frontRender('envio/new.html.twig', array(
                     'envio' => $envio,
                     'productos' => $productos,
                     'sectores' => $sectores,
@@ -77,7 +77,7 @@ class EnvioController extends Controller
             $em->flush();
             return $this->redirectToRoute('envio_index');
         }
-        return $this->render('envio/new.html.twig', array(
+        return $this->frontRender('envio/new.html.twig', array(
             'envio' => $envio,
             'productos' => $productos,
             'sectores' => $sectores
@@ -117,7 +117,7 @@ class EnvioController extends Controller
      */
     public function showAction(Envio $envio)
     {
-        return $this->render('envio/show.html.twig', array(
+        return $this->frontRender('envio/show.html.twig', array(
             'envio' => $envio,
         ));
     }

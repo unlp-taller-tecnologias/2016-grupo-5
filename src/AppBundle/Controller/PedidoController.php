@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @Route("pedido")
  */
-class PedidoController extends Controller
+class PedidoController extends MainController
 {
     /**
      * Lists all pedido entities.
@@ -29,7 +29,7 @@ class PedidoController extends Controller
 
         $pedidos = $em->getRepository('AppBundle:Pedido')->findAll();
 
-        return $this->render('pedido/index.html.twig', array(
+        return $this->frontRender('pedido/index.html.twig', array(
             'pedidos' => $pedidos,
         ));
     }
@@ -64,7 +64,7 @@ class PedidoController extends Controller
         }
         $em = $this->getDoctrine()->getManager();
         $proveedors = $em->getRepository('AppBundle:Proveedor')->findAllActive();
-        return $this->render('pedido/new.html.twig', array(
+        return $this->frontRender('pedido/new.html.twig', array(
             'pedido' => $pedido,
             'proveedors' => $proveedors,
         ));
@@ -91,7 +91,7 @@ class PedidoController extends Controller
             }
             $em->flush();
         }
-        return $this->render('pedido/close.html.twig', array(
+        return $this->frontRender('pedido/close.html.twig', array(
             'pedido' => $pedido,
         ));
     }
@@ -127,7 +127,7 @@ class PedidoController extends Controller
      */
     public function showAction(Pedido $pedido)
     {
-        return $this->render('pedido/show.html.twig', array(
+        return $this->frontRender('pedido/show.html.twig', array(
             'pedido' => $pedido,
         ));
     }

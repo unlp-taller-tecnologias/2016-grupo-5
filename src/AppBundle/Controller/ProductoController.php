@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  *
  * @Route("producto")
  */
-class ProductoController extends Controller
+class ProductoController extends MainController
 {
     /**
      * Lists all producto entities.
@@ -42,12 +42,29 @@ class ProductoController extends Controller
 
             return $this->redirectToRoute('producto_index');
         }
-        return $this->render('producto/index.html.twig', array(
+        return $this->frontRender('producto/index.html.twig', array(
             'productos' => $productos,
             'producto' => $producto,
             'form' => $form->createView(),
         ));
     }
+    /**
+     * Lists all producto critical entities.
+     *
+     * @Route("/ListaCriticos", name="producto_critical")
+     * @Method({"GET"})
+     */
+    public function listCriticalAction(Request $request, Producto $producto = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $productos = $em->getRepository('AppBundle:Producto')->getCriticalProduct();
+
+        return $this->frontRender('producto/listCritical.html.twig', array(
+            'productos' => $productos,
+        ));
+    }
+
     /**
      * get state critical product for provider.
      *

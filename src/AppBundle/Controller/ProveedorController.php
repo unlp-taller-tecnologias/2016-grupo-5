@@ -12,7 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
  *
  * @Route("proveedor")
  */
-class ProveedorController extends Controller
+class ProveedorController extends MainController
 {
     /**
      * Lists all proveedor entities.
@@ -38,7 +38,7 @@ class ProveedorController extends Controller
 
              return $this->redirectToRoute('proveedor_index');
          }
-         return $this->render('proveedor/index.html.twig', array(
+         return $this->frontRender('proveedor/index.html.twig', array(
              'proveedors' => $proveedors,
              'proveedor' => $proveedor,
              'form' => $form->createView(),
