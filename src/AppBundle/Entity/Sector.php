@@ -43,8 +43,9 @@ class Sector
     public function __construct()
     {
         $this->envios = new ArrayCollection();
+        $this->active = true;
     }
-
+    
     public function __toString()
     {
         return $this->getNombre();

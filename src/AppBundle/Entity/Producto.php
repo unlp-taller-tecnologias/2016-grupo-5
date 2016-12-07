@@ -62,6 +62,16 @@ class Producto
      */
     private $active;
 
+    public function __construct()
+    {
+        $this->active = true;
+    }
+    
+    public function __toString()
+    {
+        return $this->getNombre();
+    }
+
     /**
      * Get id
      *
