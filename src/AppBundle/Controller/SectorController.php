@@ -12,7 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
  *
  * @Route("sector")
  */
-class SectorController extends Controller
+class SectorController extends MainController
 {
     /**
      * Lists all sector entities.
@@ -38,7 +38,7 @@ class SectorController extends Controller
 
             return $this->redirectToRoute('sector_index');
         }
-        return $this->render('sector/index.html.twig', array(
+        return $this->frontRender('sector/index.html.twig', array(
             'sectors' => $sectors,
             'sector' => $sector,
             'form' => $form->createView(),

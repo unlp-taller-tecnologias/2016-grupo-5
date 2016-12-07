@@ -49,6 +49,7 @@ class Proveedor
     {
         $this->productos = new ArrayCollection();
         $this->pedidos = new ArrayCollection();
+        $this->active = true;
     }
 
     public function __toString(){

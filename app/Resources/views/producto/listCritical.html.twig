@@ -1,0 +1,78 @@
+{% extends 'templates/default.html.twig' %}
+
+{% set page =
+    {
+        "title": "Producto",
+        "subtitle": "lista de criticos",
+        "section": "Producto"
+    }
+%}
+
+{% block breadcrumb %}
+    <li><a href=""><i class="fa fa-hashtag"></i>{{ page.title }}</a></li>
+    <li class="active"> {{ page.subtitle }} </li>
+{% endblock %}
+
+{% block content %}
+<div>
+    <div class="box box-primary">
+        <div class="box-body">
+            <div class="dataTables_wrapper form-inline dt-bootstrap">
+                <table id="table" class="table dataTable table-bordered table-hover">
+                    <thead>
+                      <tr>
+                          <th>#</th>
+                          <th>Nombre</th>
+                          <th>Stock Min</th>
+                          <th>Stock Ideal</th>
+                          <th>Stock Actual</th>
+                          <th>Proovedor</th>
+                          <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for item in productos %}
+                      <tr {% if not item.active %} class="danger" {% endif %}>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.nombre }}</td>
+                        <td>{{ item.stockMinimo }}</td>
+                        <td>{{ item.stockIdeal }}</td>
+                        <td>{{ item.stock }}</td>
+                        <td>{{ item.proveedor.nombre }}</td>
+                        <td class="table-operations row">
+                          {% if item.active %}
+                            <a class="label label-primary btn-xs col-md-12" href="{{ path('producto_edit', { 'id': item.id }) }}" type="button">Editar</a>
+                          {% endif %}
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Stock Min</th>
+                        <th>Stock Ideal</th>
+                        <th>Stock Actual</th>
+                        <th>proveedor</th>
+                        <th></th>
+                      </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('lib/bootstrap-datatables/jquery.dataTables.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('lib/bootstrap-datatables/dataTables.bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/DataTable.ready.js') }}"></script>
+{% endblock javascript %}
+{% block stylesheet %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('lib/bootstrap-datatables/dataTables.bootstrap.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/DataTable.css') }}" />
+{% endblock stylesheet %}

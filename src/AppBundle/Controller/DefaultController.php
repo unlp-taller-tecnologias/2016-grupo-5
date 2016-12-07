@@ -6,7 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class DefaultController extends Controller {
+class DefaultController extends MainController {
 
     /**
      * @Route("/", name="inicio")
@@ -21,7 +21,7 @@ class DefaultController extends Controller {
                 ->getRepository('AppBundle:Pedido')
                 ->getPedidosAbiertos();
 
-        return $this->render('default/index.html.twig', array('stockCritico' => $cantidad, 'pedidosAbiertos' => $pedidosAbiertos));
+        return $this->frontRender('default/index.html.twig', array('stockCritico' => $cantidad, 'pedidosAbiertos' => $pedidosAbiertos));
     }
 
 }

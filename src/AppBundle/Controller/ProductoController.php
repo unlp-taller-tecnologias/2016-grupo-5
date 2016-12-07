@@ -16,8 +16,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  *
  * @Route("producto")
  */
-class ProductoController extends Controller
+class ProductoController extends MainController
 {
+
     /**
      * Lists all producto entities.
      *
@@ -42,12 +43,57 @@ class ProductoController extends Controller
 
             return $this->redirectToRoute('producto_index');
         }
-        return $this->render('producto/index.html.twig', array(
+        return $this->frontRender('producto/index.html.twig', array(
             'productos' => $productos,
             'producto' => $producto,
             'form' => $form->createView(),
         ));
     }
+
+    /**
+     * Lists update producto entities.
+     *
+     * @Route("/list/actualizar", name="producto_update")
+     * @Method({"GET", "POST"})
+     */
+    public function updateAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $productos = $em->getRepository('AppBundle:Producto')->findAllActive();
+
+        if ($request->isMethod('POST')) {
+            foreach ($request->request->get('producto') as $id => $cant) {
+              $producto = $em->getRepository('AppBundle:Producto')->findOneById($id);
+              $producto->setStock($cant);
+              $em->persist($producto);
+            }
+            $em->flush();
+            return $this->redirectToRoute('producto_index');
+        }
+
+        return $this->frontRender('producto/updateStock.html.twig', array(
+            'productos' => $productos,
+        ));
+    }
+
+    /**
+     * Lists all producto critical entities.
+     *
+     * @Route("/ListaCriticos", name="producto_critical")
+     * @Method({"GET"})
+     */
+    public function listCriticalAction(Request $request, Producto $producto = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $productos = $em->getRepository('AppBundle:Producto')->getCriticalProduct();
+
+        return $this->frontRender('producto/listCritical.html.twig', array(
+            'productos' => $productos,
+        ));
+    }
+
     /**
      * get state critical product for provider.
      *

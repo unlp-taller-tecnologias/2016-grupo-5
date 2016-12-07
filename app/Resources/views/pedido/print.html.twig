@@ -24,7 +24,7 @@
       <div class="col-xs-3">
           <label>Fecha Cierre</label>
           <div class="form-control">
-            {{ pedido.fechaCierre|date("m/d/Y")}}
+              {% if pedido.fechaCierre is null %}{% else %}{{ pedido.fechaCierre|date("m/d/Y")}}{% endif %}
           </div>
       </div>
     </div>
