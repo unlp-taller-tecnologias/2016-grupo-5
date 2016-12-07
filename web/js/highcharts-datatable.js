@@ -5,7 +5,7 @@ Highcharts.drawTable = function () {
 
     // user options
     var tableTop = 10,
-            colWidth = 100,
+            colWidth = 67,
             tableLeft = 10,
             rowHeight = 14,
             cellPadding = 2.5,

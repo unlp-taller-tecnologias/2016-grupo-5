@@ -11,26 +11,25 @@
     <li><a href=""><i class="fa fa-hashtag"></i>{{page.title}}</a></li>
     <li class="active"> {{ page.subtitle }}</li>
 
-    <label>Fecha inicio</label><input type="text" id="fecha_inicio" name="fecha_inicio" value="{{"now"|date("d/m/Y")}}">
-    <label>Fecha fin</label><input type="text" id="fecha_fin" name="fecha_fin" value="{{"now"|date("d/m/Y")}}">
+    <label>Fecha inicio</label><input type="text" id="fecha_inicio" name="fecha_inicio" value="{{"now"|date("Y-m-d")}}">
+    <label>Fecha fin</label><input type="text" id="fecha_fin" name="fecha_fin" value="{{"now"|date("Y-m-d")}}">
     <select id="productos" name="producto_id">
         {% for producto in productos%}
             <option value="{{producto.id}}">{{producto.nombre}}</option>
         {% endfor %}
     </select>       
-    <button type="subnit" id="botonMostrar">Mostrar</button>
+    <button type="submit" id="botonMostrar">Mostrar</button>
 
-    {% if pedidos is not empty %}
-    asd
-    <div id="graficontainer"></div>
-       {% endif%}
+    
+        <div id="graficontainer"></div>
+  
 {% endblock %}
 
 {% block script %}
     <script type="text/javascript" src="{{ asset('js/datepicker_es.js')}}"></script>
-    <script type="text/javascript" src="{{ asset('js/balance.js')}}"></script>
     <script type="text/javascript" src='{{ asset('js/highcharts.js')}}'></script>
     <script type="text/javascript" src="{{ asset('js/exporting.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('js/balance.js')}}"></script>
     <script type="text/javascript" src='{{ asset('js/highcharts-datatable.js')}}'></script>
     <script type="text/javascript" src='{{ asset('js/estadistica.js')}}'></script>
 {% endblock %}

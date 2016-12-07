@@ -25,7 +25,7 @@ $('#botonMostrar').on('click',function(){
         data: {fecha_inicio: fechainicio, fecha_fin: fechafin, producto_id: producto_id},
         
         success: function(datos){
-            console.log('LLegó');
+              graficar(datos);
         }
     }); 
 });

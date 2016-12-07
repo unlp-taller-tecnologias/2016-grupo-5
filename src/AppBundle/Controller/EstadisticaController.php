@@ -25,58 +25,72 @@ class EstadisticaController extends Controller {
 
         $productos = $em->getRepository('AppBundle:Producto')->findAllActive();
         return $this->render('estadistica/estadistica.html.twig', [
-                    'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..'), 'productos' => $productos,'pedidos'=> null,
+                    'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..'), 'productos' => $productos, 'pedidos' => null,
         ]);
     }
 
-     
-    
     /**
      * @Route("/mostrar", name="mostrar")
      * @Method({"POST"})
      */
-    public function mostrarAction()
-    {
+    public function mostrarAction() {
         $em = $this->getDoctrine()->getManager();
-<<<<<<< HEAD
+
         $productos = $em->getRepository('AppBundle:Producto')->findAll();
         $pedidos = $em->getRepository('AppBundle:DetallePedido')->cantidadPorDia($_POST['producto_id'], '1990-04-12 00:00:00', '2016-12-1 00:00:00');
         //$pedidos = $em->getRepository('AppBundle:DetalleEnvio')->cantidadPorDia();
 
         return $this->render('estadistica/estadistica.html.twig', array(
-            'chart' => $ob,
-            'productos' => $productos, 
-            'pedidos'=>$pedidos
+                    'chart' => $ob,
+                    'productos' => $productos,
+                    'pedidos' => $pedidos
         ));
     }
 
     /**
      * @Route("/estadisticasproducto", name="estadisticasproducto       ")
      * @Method({"GET"})
-     */    
-    public function estadisticasProducto(Request $request)
-    {
-        $fecha_inicio=$request->get('fecha_inicio');
-        $fecha_fin=$request->get('fecha_fin');
-        $producto_id=$request->get('producto_id');
-        
+     */
+    public function estadisticasProducto(Request $request) {
+        $fecha_inicio = $request->get('fecha_inicio');
+        $fecha_fin = $request->get('fecha_fin');
+
+        $producto_id = $request->get('producto_id');
+
         $em = $this->getDoctrine()->getManager();
-        $productos = $em->getRepository('AppBundle:Producto')->findAll();
-        $pedidos = $em->getRepository('AppBundle:DetallePedido')->cantidadPorDia($producto_id, '1990-04-12 00:00:00', '2016-12-1 00:00:00');
+        $pedidos = $em->getRepository('AppBundle:DetallePedido')->cantidadPorDia($producto_id, '1990-04-12 00:00:00', '2016-12-9 00:00:00');
 
-        return new JsonResponse(array($pedidos));
-    }
-=======
-
-        $productos = $em->getRepository('AppBundle:Producto')->findAllActive();
-        $pedidos = $em->getRepository('AppBundle:DetallePedido')->cantidadPorDia($_POST['producto_id'], '1990-04-12 00:00:00', '2016-12-1 00:00:00');
-        //$pedidos = $em->getRepository('AppBundle:DetalleEnvio')->cantidadPorDia();
-        return $this->render('estadistica/estadistica.html.twig', [
-                    'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..'), 'productos' => $productos, 'pedidos'=>$pedidos,
-        ]);
-
+        $envios = $em->getRepository('AppBundle:DetalleEnvio')->cantidadPorDia($producto_id, '1990-04-12 00:00:00', '2016-12-9 00:00:00');
+        $fechas = $this->arreglo_fechas($fecha_inicio, $fecha_fin, $pedidos, $envios);
+        return new JsonResponse($fechas);
     }
 
->>>>>>> 5d5ff8d286bc184ef4b35cc3da819de99800f39f
+    public function arreglo_fechas($fecha_inicio, $fecha_fin, $pedidos, $envios) {
+        $desde = \DateTime::createFromFormat("Y-m-d", $fecha_inicio);
+        $hasta = \DateTime::createFromFormat("Y-m-d", $fecha_fin);
+        $interval = $hasta->diff($desde);
+        $days = $interval->days;
+        $array_dias = array();
+        $array_pedidos = array();
+        $array_envios = array();
+
+
+        for ($i = 0; $i < $days; $i++) {
+            $data = $desde->format("d/m/Y");
+            array_push($array_dias, $data);
+            $array_envios[$data] = 0;
+            $array_pedidos[$data] = 0;
+            $desde->add(new \DateInterval("P1D"));
+        }
+
+        foreach ($pedidos as $pedido) {
+            $array_pedidos[$pedido["fechaCierre"]->format('d/m/Y')] = $pedido["cantidad"];
+        }
+
+        foreach ($envios as $envio) {
+            $array_envios[$envio["fecha"]->format('d/m/Y')] = $envio["cantidad"];
+        }
+        return ['fechas' => $array_dias, 'envios' => array_values($array_envios), 'pedidos' => array_values($array_pedidos)];
+    }
 
 }

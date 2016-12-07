@@ -13,7 +13,7 @@ class DetallePedidoRepository extends \Doctrine\ORM\EntityRepository
     public function cantidadPorDia($idProducto, $fechaInicio,$fechaFin) {
 
         $q = $this->getEntityManager()->createQueryBuilder()
-                ->select('p.fechaCierre, SUM(d.cantidadRecibida)')
+                ->select('p.fechaCierre, SUM(d.cantidadRecibida) as cantidad')
                 ->from('AppBundle:DetallePedido', 'd')
                 ->join('AppBundle:Pedido', 'p', 'WITH', 'd.pedido=p.id')
                 ->where('p.fechaCierre >= :inicio')
