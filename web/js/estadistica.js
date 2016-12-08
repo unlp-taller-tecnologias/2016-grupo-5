@@ -26,6 +26,7 @@ $('#botonMostrar').on('click',function(){
         
         success: function(datos){
               graficar(datos);
+              dibujar(datos);
         }
     }); 
 });

@@ -19,12 +19,14 @@ function graficar(datos) {
 function getChartOpt(chartType, chartTitle, xAxis, chartSeries) {
     return {
         chart: {
-            spacingLeft: 0,
+            spacingLeft: 300,
             plotBackgroundColor: null,
             plotBorderWidth: null,
             plotShadow: false,
             type: chartType,
-            
+            events: {
+                load: Highcharts.drawTable
+            } 
         },
         title: {
             text: chartTitle
