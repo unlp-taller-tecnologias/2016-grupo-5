@@ -34,7 +34,7 @@
             <a href="{{ path('envio_new')}}">
               <div class="small-box bg-blue" role="button" >
                   <div class="inner">
-                      <h3>Envio</h3>
+                      <h3>Envío</h3>
                       <p>a sector</p>
                   </div>
                   <div class="icon">
@@ -45,16 +45,16 @@
         </div>
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
-           <a href='{{ path('mostrarestadisticas')}}'>
-            <div class="small-box bg-green" role="button" >
-                <div class="inner">
-                    <h3>Estadisticas!</h3>
-                    <p>Ingresa para ver las estadisticas</p>
-                </div>
-                <div class="icon">
-                    <i class="fa  fa-area-chart"></i>
-                </div>
-            </div>
+            <a href="{{ path('estadistica_index') }}">
+              <div class="small-box bg-green" role="button" >
+                  <div class="inner">
+                      <h3>Estadísticas</h3>
+                      <p>Ingresa para ver las estadísticas</p>
+                  </div>
+                  <div class="icon">
+                      <i class="fa  fa-area-chart"></i>
+                  </div>
+              </div>
             </a>
         </div>
         <!-- ./col -->
@@ -65,7 +65,7 @@
                   <div class="inner">
                       <h3>{{ stockCritico}}</h3>
 
-                      <p>Productos en stock critico</p>
+                      <p>Productos en stock crítico</p>
                   </div>
                   <div class="icon">
                       <i class="fa fa-exclamation-triangle"></i>
@@ -87,7 +87,7 @@
                 <tbody><tr>
                         <th style="width: 10px">#</th>
                         <th>Proveedor</th>
-                        <th>Fecha de realizacion</th>
+                        <th>Fecha de realización</th>
                         <th>Acciones</th>
                     </tr>
                     {% for pedido in pedidosAbiertos %}

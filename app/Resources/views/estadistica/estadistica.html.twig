@@ -1,28 +1,48 @@
 {% extends 'templates/default.html.twig' %}
 {% set page =
     {
-        "title": "Inicio",
-        "subtitle": "Dashboard",
-        "section": "Administracion"
+        "title": "Estadística",
+        "subtitle": "Inicio",
+        "section": "Estadística"
     }
 %}
 
-{% block content %}
+{% block breadcrumb %}
     <li><a href=""><i class="fa fa-hashtag"></i>{{page.title}}</a></li>
     <li class="active"> {{ page.subtitle }}</li>
+{% endblock %}
 
-    <label>Fecha inicio</label><input type="text" id="fecha_inicio" name="fecha_inicio" value="{{"now"|date("Y-m-d")}}">
-    <label>Fecha fin</label><input type="text" id="fecha_fin" name="fecha_fin" value="{{"now"|date("Y-m-d")}}">
-    <select id="productos" name="producto_id">
-        {% for producto in productos%}
-            <option value="{{producto.id}}">{{producto.nombre}}</option>
-        {% endfor %}
-    </select>       
-    <button type="submit" id="botonMostrar">Mostrar</button>
+{% block content %}
+    <div class="box box-primary">
+        <div class="box-body">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Fecha inicio</label>
+                        <input class="form-control" type="text" id="fecha_inicio" name="fecha_inicio" value="{{"now"|date("Y-m-d")}}">
+                    </div>
+                    <div class="col-md-4">
+                        <label>Fecha fin</label>
+                        <input class="form-control" type="text" id="fecha_fin" name="fecha_fin" value="{{"now"|date("Y-m-d")}}">
+                    </div>
+                    <div class="col-md-4">
+                        <label>Producto</label>
+                        <select class="form-control" id="productos" name="producto_id">
+                            {% for producto in productos%}
+                                <option value="{{producto.id}}">{{producto.nombre}}</option>
+                            {% endfor %}
+                        </select>  
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <button type="submit" id="botonMostrar" class="btn bg-olive btn-flat margin pull-right">Mostrar</button>
+        </div>
+    </div>
 
-    
-        <div id="graficontainer"></div>
-  
+<div id="graficontainer" style="height:700px;"></div>
+
 {% endblock %}
 
 {% block script %}
