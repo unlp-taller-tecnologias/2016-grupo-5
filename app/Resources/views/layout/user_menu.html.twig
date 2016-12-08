@@ -1,4 +1,4 @@
-{% if productosCriticos.cant > 0 %}
+{% if (productosCriticos is defined) and productosCriticos.cant > 0 %}
 <li class="dropdown notifications-menu">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
     <i class="fa fa-medkit"></i>

@@ -58,9 +58,9 @@ class EstadisticaController extends Controller {
         $producto_id = $request->get('producto_id');
 
         $em = $this->getDoctrine()->getManager();
-        $pedidos = $em->getRepository('AppBundle:DetallePedido')->cantidadPorDia($producto_id, '1990-04-12 00:00:00', '2016-12-9 00:00:00');
+        $pedidos = $em->getRepository('AppBundle:DetallePedido')->cantidadPorDia($producto_id, $fecha_inicio, $fecha_fin);
 
-        $envios = $em->getRepository('AppBundle:DetalleEnvio')->cantidadPorDia($producto_id, '1990-04-12 00:00:00', '2016-12-9 00:00:00');
+        $envios = $em->getRepository('AppBundle:DetalleEnvio')->cantidadPorDia($producto_id, $fecha_inicio, $fecha_fin);
         $fechas = $this->arreglo_fechas($fecha_inicio, $fecha_fin, $pedidos, $envios);
         return new JsonResponse($fechas);
     }

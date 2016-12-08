@@ -1,12 +1,14 @@
+
 $(function() {
     $("#fecha_inicio").datepicker({
+        maxDate: new Date(),
         dateFormat: 'dd/mm/yy',
         constrainInput: true,
         altField: "#fecha_inicio",
         altFormat: 'yy-mm-dd'
     });
     $("#fecha_fin").datepicker({
-        //maxDate: new Date({{"now"|date("Y")}}, {{"now"|date("m")-1}}, {{"now"|date("d")}}),
+        maxDate: new Date(),
         dateFormat: 'dd/mm/yy',
         constrainInput: true,
         altField: "#fecha_fin",
