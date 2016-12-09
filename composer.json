@@ -32,6 +32,7 @@
         "symfony/assetic-bundle": "^2.8",
         "knplabs/knp-snappy-bundle": "~1.4",
         "h4cc/wkhtmltopdf-amd64": "0.12.3",
+        "h4cc/wkhtmltopdf-i386": "0.12.3",
         "ob/highcharts-bundle": "1.5"
     },
     "require-dev": {
