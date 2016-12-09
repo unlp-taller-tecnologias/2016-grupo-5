@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Proveedor controller.
@@ -48,21 +49,36 @@ class EstadisticaController extends Controller {
     }
 
     /**
-     * @Route("/estadisticasproducto", name="estadisticasproducto       ")
+     * @Route("/estadisticasproducto", name="estadisticasproducto")
      * @Method({"GET"})
      */
     public function estadisticasProducto(Request $request) {
+
+
         $fecha_inicio = $request->get('fecha_inicio');
         $fecha_fin = $request->get('fecha_fin');
+        if ($this->fecha_mayor($fecha_inicio, $fecha_fin)) {
+            $producto_id = $request->get('producto_id');
 
-        $producto_id = $request->get('producto_id');
+            $em = $this->getDoctrine()->getManager();
+            $pedidos = $em->getRepository('AppBundle:DetallePedido')->cantidadPorDia($producto_id, $fecha_inicio, $fecha_fin);
 
-        $em = $this->getDoctrine()->getManager();
-        $pedidos = $em->getRepository('AppBundle:DetallePedido')->cantidadPorDia($producto_id, $fecha_inicio, $fecha_fin);
+            $envios = $em->getRepository('AppBundle:DetalleEnvio')->cantidadPorDia($producto_id, $fecha_inicio, $fecha_fin);
+            $fechas = $this->arreglo_fechas($fecha_inicio, $fecha_fin, $pedidos, $envios);
+            return new JsonResponse($fechas);
+        } else {
+            $msg = 'La fecha inicial es posterior a la fecha final';
+            $response = new Response();
+            $response->setContent($msg);
+            $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+            return $response;
+        }
+    }
 
-        $envios = $em->getRepository('AppBundle:DetalleEnvio')->cantidadPorDia($producto_id, $fecha_inicio, $fecha_fin);
-        $fechas = $this->arreglo_fechas($fecha_inicio, $fecha_fin, $pedidos, $envios);
-        return new JsonResponse($fechas);
+    public function fecha_mayor($fecha_inicio, $fecha_fin) {
+        $fecha1 = \DateTime::createFromFormat("Y-m-d", $fecha_inicio);
+        $fecha2 = \DateTime::createFromFormat("Y-m-d", $fecha_fin);
+        return ($fecha1 <= $fecha2);
     }
 
     public function arreglo_fechas($fecha_inicio, $fecha_fin, $pedidos, $envios) {
@@ -74,7 +90,6 @@ class EstadisticaController extends Controller {
         $array_pedidos = array();
         $array_envios = array();
 
-
         for ($i = 0; $i < $days; $i++) {
             $data = $desde->format("d/m/Y");
             array_push($array_dias, $data);
@@ -82,11 +97,9 @@ class EstadisticaController extends Controller {
             $array_pedidos[$data] = 0;
             $desde->add(new \DateInterval("P1D"));
         }
-
         foreach ($pedidos as $pedido) {
             $array_pedidos[$pedido["fechaCierre"]->format('d/m/Y')] = $pedido["cantidad"];
         }
-
         foreach ($envios as $envio) {
             $array_envios[$envio["fecha"]->format('d/m/Y')] = $envio["cantidad"];
         }
