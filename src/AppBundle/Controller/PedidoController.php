@@ -27,7 +27,7 @@ class PedidoController extends MainController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $pedidos = $em->getRepository('AppBundle:Pedido')->findAll();
+        $pedidos = $em->getRepository('AppBundle:Pedido')->findOrderAll();
 
         return $this->frontRender('pedido/index.html.twig', array(
             'pedidos' => $pedidos,
@@ -100,7 +100,7 @@ class PedidoController extends MainController
                 $em->persist($detallePedido->getProducto());
               }
               $em->flush();
-              $this->indexAction();
+              return $this->indexAction();
           }
           return $this->frontRender('pedido/close.html.twig', array(
               'pedido' => $pedido,

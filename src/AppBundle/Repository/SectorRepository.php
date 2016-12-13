@@ -15,6 +15,7 @@ class SectorRepository extends \Doctrine\ORM\EntityRepository
     {
       return $this->createQueryBuilder('s')
                ->where('s.active = 1')
+               ->orderBy('s.nombre', 'ASC')
                ->getQuery()
                ->getResult();
     }

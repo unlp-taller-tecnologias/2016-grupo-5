@@ -2,7 +2,7 @@
 {% set page =
     {
         "title": "Envío",
-        "subtitle": "Ver",
+        "subtitle": " Numero: " ~ envio.id ,
         "section": "Envio"
     }
 %}
@@ -25,7 +25,7 @@
           <div class="col-md-4">
               <label>Fecha</label>
               <div class="form-control">
-                <span>{{ envio.fecha|date("m/d/Y")}}</option>
+                <span>{{ envio.fecha|date("d/m/Y")}}</option>
               </div>
           </div>
           <div class="col-md-4">
@@ -37,7 +37,7 @@
         </div>
         <div class="box-body">
             <div class=" form-inline dt-bootstrap">
-                <table id="table" class="table dataTable table-bordered table-hover">
+                <table id="table" class="table orderName table-bordered table-hover">
                     <thead>
                       <tr>
                           <th>#</th>
@@ -81,5 +81,7 @@
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('lib/bootstrap-datatables/jquery.dataTables.js') }}"></script>
     <script type="text/javascript" src="{{ asset('lib/bootstrap-datatables/dataTables.bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/DataTable.ready.js') }}"></script>
+
     </script>
 {% endblock javascript %}

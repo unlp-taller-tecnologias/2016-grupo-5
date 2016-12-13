@@ -24,6 +24,7 @@ class ProductoRepository extends \Doctrine\ORM\EntityRepository
   {
     return $this->createQueryBuilder('p')
              ->where('p.active = 1')
+             ->orderBy('p.nombre', 'ASC')
              ->getQuery()
              ->getResult();
   }
@@ -35,6 +36,7 @@ class ProductoRepository extends \Doctrine\ORM\EntityRepository
           ->setParameter('idProvider', $idProvider)
           ->andWhere('p.stock <= p.stockMinimo')
           ->andWhere('p.active = 1')
+          ->orderBy('p.nombre', 'ASC')
           ->getQuery()->getArrayResult();
   }
 
@@ -45,6 +47,7 @@ class ProductoRepository extends \Doctrine\ORM\EntityRepository
           ->setParameter('idProvider', $idProvider)
           ->andWhere('p.stock < p.stockIdeal')
           ->andWhere('p.active = 1')
+          ->orderBy('p.nombre', 'ASC')
           ->getQuery()->getArrayResult();
   }
   public function getProductYesIdealStockFromProvider($idProvider)
@@ -54,6 +57,7 @@ class ProductoRepository extends \Doctrine\ORM\EntityRepository
           ->setParameter('idProvider', $idProvider)
           ->andWhere('p.stock >= p.stockIdeal')
           ->andWhere('p.active = 1')
+          ->orderBy('p.nombre', 'ASC')
           ->getQuery()->getArrayResult();
   }
 
@@ -64,6 +68,7 @@ class ProductoRepository extends \Doctrine\ORM\EntityRepository
           ->setParameter('idProvider', $idProvider)
           ->andWhere('p.stock > p.stockMinimo')
           ->andWhere('p.active = 1')
+          ->orderBy('p.nombre', 'ASC')
           ->getQuery()->getArrayResult();
   }
 
@@ -73,6 +78,7 @@ class ProductoRepository extends \Doctrine\ORM\EntityRepository
               ->select('count(p.id)')
               ->where('p.stock < p.stockMinimo')
               ->andWhere('p.active = 1')
+              ->orderBy('p.nombre', 'ASC')
               ->getQuery()
               ->getSingleScalarResult();
   }

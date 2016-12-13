@@ -14,7 +14,13 @@ class PedidoRepository extends \Doctrine\ORM\EntityRepository {
 
         return $this->createQueryBuilder('p')
                         ->where('p.fechaCierre IS null')
-                        ->orderBy('p.id', 'ASC')
+                        ->orderBy('p.id', 'DESC')
+                        ->getQuery()->getResult();
+    }
+
+    public function findOrderAll() {
+        return $this->createQueryBuilder('p')
+                        ->orderBy('p.id', 'DESC')
                         ->getQuery()->getResult();
     }
 

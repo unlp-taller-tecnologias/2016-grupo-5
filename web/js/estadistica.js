@@ -1,5 +1,6 @@
 
 $(function() {
+    $('#productos').select2();
     $("#fecha_inicio").datepicker({
         maxDate: new Date(),
         dateFormat: 'dd/mm/yy',
@@ -25,7 +26,7 @@ $('#botonMostrar').on('click',function(){
         type: 'GET',
         url: 'estadisticasproducto',
         data: {fecha_inicio: fechainicio, fecha_fin: fechafin, producto_id: producto_id},
-        
+
         success: function(datos){
               graficar(datos);
         },
@@ -35,6 +36,6 @@ $('#botonMostrar').on('click',function(){
             $('#textModal').html(msg);
             $('#msj').modal('show');
         }
-        
-    }); 
+
+    });
 });

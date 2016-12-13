@@ -19,7 +19,7 @@
         <div class="box-body">
             <form class="" action="{{path('producto_update')}}" method="post">
               <div class="dataTables_wrapper form-inline dt-bootstrap">
-                  <table id="table" class="table table-bordered table-hover">
+                  <table id="table" class="table orderName table-bordered table-hover">
                       <thead>
                         <tr>
                             <th>#</th>
@@ -46,3 +46,17 @@
     </div>
 </div>
 {% endblock %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('lib/bootstrap-datatables/dataTables.bootstrap.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/DataTable.css') }}" />
+{% endblock stylesheet %}
+
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('lib/bootstrap-datatables/jquery.dataTables.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('lib/bootstrap-datatables/dataTables.bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/DataTable.ready.js') }}"></script>
+{% endblock javascript %}

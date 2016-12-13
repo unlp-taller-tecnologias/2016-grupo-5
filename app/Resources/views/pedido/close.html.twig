@@ -2,14 +2,14 @@
 {% set page =
     {
         "title": "Pedido",
-        "subtitle": "Cerrar",
+        "subtitle": " Numero: " ~ pedido.id ,
         "section": "Pedido"
     }
 %}
 
 {% block breadcrumb %}
     <li><a href=""><i class="fa fa-hashtag"></i>Pedido</a></li>
-    <li class="active"> {{ page.subtitle }}</li>
+    <li class="active">Numero {{pedido.id}}</li>
 {% endblock %}
 
 {% block content %}
@@ -26,13 +26,13 @@
           <div class="col-md-6">
               <label>Fecha Apertura</label>
               <div class="form-control">
-                <span>{{ pedido.fechaApertura|date("m/d/Y")}}</option>
+                <span>{{ pedido.fechaApertura|date("d/m/Y")}}</option>
               </div>
           </div>
         </div>
         <div class="box-body">
             <div class=" form-inline dt-bootstrap">
-                <table id="table" class="table dataTable table-bordered table-hover">
+                <table id="table" class="table orderName table-bordered table-hover">
                     <thead>
                       <tr>
                           <th>#</th>
@@ -91,6 +91,7 @@
     </script>
     <script type="text/javascript" src="{{ asset('lib/bootstrap-datatables/jquery.dataTables.js') }}"></script>
     <script type="text/javascript" src="{{ asset('lib/bootstrap-datatables/dataTables.bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/DataTable.ready.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/NewOrder.js') }}">
     </script>
 {% endblock javascript %}

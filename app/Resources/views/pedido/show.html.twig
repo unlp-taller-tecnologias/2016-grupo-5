@@ -2,7 +2,7 @@
 {% set page =
     {
         "title": "Pedido",
-        "subtitle": "Ver",
+        "subtitle": " Numero: " ~ pedido.id ,
         "section": "Pedido"
     }
 %}
@@ -25,19 +25,19 @@
           <div class="col-md-4">
               <label>Fecha Apertura</label>
               <div class="form-control">
-                <span>{{ pedido.fechaApertura|date("m/d/Y")}}</option>
+                <span>{{ pedido.fechaApertura|date("d/m/Y")}}</option>
               </div>
           </div>
           <div class="col-md-4">
               <label>Fecha Cierre</label>
               <div class="form-control">
-                <span>{{ pedido.fechaCierre|date("m/d/Y")}}</option>
+                <span>  {% if pedido.fechaCierre is not null %}{{ pedido.fechaCierre|date("d/m/Y")}}{% endif %}</option>
               </div>
           </div>
         </div>
         <div class="box-body">
             <div class=" form-inline dt-bootstrap">
-                <table id="table" class="table table-bordered table-hover">
+                <table id="table" class="table orderName table-bordered table-hover">
                     <thead>
                       <tr>
                           <th>#</th>
@@ -73,3 +73,17 @@
     </div>
 </div>
 {% endblock %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('lib/bootstrap-datatables/dataTables.bootstrap.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/DataTable.css') }}" />
+{% endblock stylesheet %}
+
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('lib/bootstrap-datatables/jquery.dataTables.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('lib/bootstrap-datatables/dataTables.bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/DataTable.ready.js') }}"></script>
+{% endblock javascript %}

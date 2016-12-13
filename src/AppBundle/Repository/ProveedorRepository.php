@@ -15,6 +15,7 @@ class ProveedorRepository extends \Doctrine\ORM\EntityRepository
     {
       return $this->createQueryBuilder('p')
                ->where('p.active = 1')
+               ->orderBy('p.nombre', 'ASC')
                ->getQuery()
                ->getResult();
     }

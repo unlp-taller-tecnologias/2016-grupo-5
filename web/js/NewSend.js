@@ -6,7 +6,7 @@ $(function() {
   });
   $('#productSelect').change(function(){
     if ($('#product_'+$(this).val()).length == 0) {
-      $('#listProduct').append('<tr id="product_'+$(this).val()+'"><td>'+$(this).val()+'</td><td>'+$('#productSelect option:selected').text()+'</td><td><input type="number" class="form-control productCant" min="1" view=false name="producto['+$(this).val()+']" max="'+$('#productSelect option:selected').attr('stock')+'"value="0" stockMinimo="'+$('#productSelect option:selected').attr('stockmin')+'"/></td><td>'+$('#productSelect option:selected').attr('stock')+'</td><td class="table-operations"><span role="button" onclick="remove('+$(this).val()+',\''+$('#productSelect option:selected').text()+'\')" title="eliminar"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span></td></tr>');
+      $('#listProduct').append('<tr id="product_'+$(this).val()+'"><td>'+$(this).val()+'</td><td>'+$('#productSelect option:selected').text()+'</td><td><input type="number" class="form-control productCant" oninvalid="setCustomValidity(\'La cantidad debe ser mayor a 0.\')" min="1" view=false name="producto['+$(this).val()+']" max="'+$('#productSelect option:selected').attr('stock')+'"value="0" stockMinimo="'+$('#productSelect option:selected').attr('stockmin')+'"/></td><td>'+$('#productSelect option:selected').attr('stock')+'</td><td class="table-operations"><span role="button" onclick="remove('+$(this).val()+',\''+$('#productSelect option:selected').text()+'\')" title="eliminar"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span></td></tr>');
       $('#productSelect option:selected').remove();
       if ($('#productosAdd option').length == 1){
         $('#productosAdd option').remove();
@@ -25,7 +25,7 @@ $(function() {
             $('#msj').addClass('modal-danger');
             $('#msj').removeClass('modal-warning');
             $(this).val($(this).attr('max'));
-            $('#textModal').html('El producto modificado intenta entregar mas productos de los disponibles en stock! <br /> el sistema redujo a la cantidad maxima disponible en stock, pero recuerde que este producto va a quedar con stock critico<br /><br />' );
+            $('#textModal').html('Stock insuficiente para cumplir lo solicitado! <br /> el sistema ajustara a la cantidad maxima disponible, pero recuerde que este quedara sin stock<br /><br />' );
             $('#msj').modal('show');
           }
         }else{
