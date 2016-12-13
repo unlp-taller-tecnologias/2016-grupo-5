@@ -15,6 +15,12 @@
 
 {% block content %}
 <div>
+    {% if msj is not null %}
+      <div class="callout callout-danger">
+        <h4>Atencion:</h4>
+        <p>{{msj}}</p>
+      </div>
+    {% endif %}
     <div class="box box-primary">
         <div class="box-body">
             {{ form_start(form, {'attr': {'id':'form', 'role': 'form'}}) }}

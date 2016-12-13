@@ -35,17 +35,22 @@ class ProductoController extends MainController
         }
         $form = $this->createForm('AppBundle\Form\ProductoType', $producto);
         $form->handleRequest($request);
+        $msj = null;
+        try{
+          if ($form->isSubmitted() && $form->isValid()) {
+              $em = $this->getDoctrine()->getManager();
+              $em->persist($producto);
+              $em->flush();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($producto);
-            $em->flush();
-
-            return $this->redirectToRoute('producto_index');
+              return $this->redirectToRoute('producto_index');
+          }
+        }catch(\Exception $e){
+          $msj="Error: El nombre ya se encuentra ocupado, no puede repetirse";
         }
         return $this->frontRender('producto/index.html.twig', array(
             'productos' => $productos,
             'producto' => $producto,
+            'msj' => $msj,
             'form' => $form->createView(),
         ));
     }
@@ -61,7 +66,6 @@ class ProductoController extends MainController
         $em = $this->getDoctrine()->getManager();
 
         $productos = $em->getRepository('AppBundle:Producto')->findAllActive();
-
         if ($request->isMethod('POST')) {
             foreach ($request->request->get('producto') as $id => $cant) {
               $producto = $em->getRepository('AppBundle:Producto')->findOneById($id);

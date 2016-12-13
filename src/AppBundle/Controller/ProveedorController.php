@@ -30,17 +30,22 @@ class ProveedorController extends MainController
          }
          $form = $this->createForm('AppBundle\Form\ProveedorType', $proveedor);
          $form->handleRequest($request);
+         $msj = null;
+         try{
+           if ($form->isSubmitted() && $form->isValid()) {
+               $em = $this->getDoctrine()->getManager();
+               $em->persist($proveedor);
+               $em->flush();
 
-         if ($form->isSubmitted() && $form->isValid()) {
-             $em = $this->getDoctrine()->getManager();
-             $em->persist($proveedor);
-             $em->flush();
-
-             return $this->redirectToRoute('proveedor_index');
+               return $this->redirectToRoute('proveedor_index');
+           }
+         } catch(\Exception $e){
+           $msj="Error: El nombre ya se encuentra ocupado, no puede repetirse";
          }
          return $this->frontRender('proveedor/index.html.twig', array(
              'proveedors' => $proveedors,
              'proveedor' => $proveedor,
+             'msj' => $msj,
              'form' => $form->createView(),
          ));
      }

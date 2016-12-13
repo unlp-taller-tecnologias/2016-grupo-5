@@ -46,7 +46,7 @@ class Producto
     /**
      * @var string
      *
-     * @ORM\Column(name="nombre", type="string", length=255)
+     * @ORM\Column(name="nombre", type="string", length=255, unique=true)
      */
     private $nombre;
 
@@ -66,7 +66,7 @@ class Producto
     {
         $this->active = true;
     }
-    
+
     public function __toString()
     {
         return $this->getNombre();

@@ -30,17 +30,22 @@ class SectorController extends MainController
         }
         $form = $this->createForm('AppBundle\Form\SectorType', $sector);
         $form->handleRequest($request);
+        $msj = null;
+        try{
+          if ($form->isSubmitted() && $form->isValid()) {
+              $em = $this->getDoctrine()->getManager();
+              $em->persist($sector);
+              $em->flush();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($sector);
-            $em->flush();
-
-            return $this->redirectToRoute('sector_index');
+              return $this->redirectToRoute('sector_index');
+          }
+        } catch(\Exception $e){
+          $msj="Error: El nombre ya se encuentra ocupado, no puede repetirse";
         }
         return $this->frontRender('sector/index.html.twig', array(
             'sectors' => $sectors,
             'sector' => $sector,
+            'msj' => $msj,
             'form' => $form->createView(),
         ));
     }
