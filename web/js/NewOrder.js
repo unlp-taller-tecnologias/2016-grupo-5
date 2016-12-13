@@ -18,7 +18,7 @@ $(function() {
             });
             $('#listProduct > tr').remove();
             $.each(data.criticos, function (index, product) {
-              $('#listProduct').append('<tr id="product_'+product.id+'"><td>'+product.id+'</td><td>'+product.nombre+'</td><td><input type="number" class="form-control" name="producto['+product.id+']" value="'+(product.stockIdeal-product.stock)+'"/></td><td class="table-operations"><span role="button" onclick="remove('+product.id+',\''+product.nombre+'\')"  title="eliminar"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span></td></tr>');
+              $('#listProduct').append('<tr id="product_'+product.id+'"><td>'+product.id+'</td><td>'+product.nombre+'</td><td><input type="number" class="form-control" min="1" name="producto['+product.id+']" value="'+(product.stockIdeal-product.stock)+'"/></td><td class="table-operations"><span role="button" onclick="remove('+product.id+',\''+product.nombre+'\')"  title="eliminar"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span></td></tr>');
             });
           });
        });

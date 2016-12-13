@@ -71,7 +71,7 @@ class ProductoRepository extends \Doctrine\ORM\EntityRepository
 
       return $this->createQueryBuilder('p')
               ->select('count(p.id)')
-              ->where('p.stock <= p.stockMinimo')
+              ->where('p.stock < p.stockMinimo')
               ->andWhere('p.active = 1')
               ->getQuery()
               ->getSingleScalarResult();

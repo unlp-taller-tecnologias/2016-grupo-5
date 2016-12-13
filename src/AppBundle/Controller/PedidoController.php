@@ -89,10 +89,15 @@ class PedidoController extends MainController
               $em->persist($detallePedido->getProducto());
             }
             $em->flush();
+            $pedidos = $em->getRepository('AppBundle:Pedido')->findAll();
+            return $this->frontRender('pedido/index.html.twig', array(
+            'pedidos' => $pedidos,
+            ));
+        }else{
+            return $this->frontRender('pedido/close.html.twig', array(
+                'pedido' => $pedido,
+            ));
         }
-        return $this->frontRender('pedido/close.html.twig', array(
-            'pedido' => $pedido,
-        ));
     }
     /**
      * print a pedido entity.
