@@ -3,7 +3,7 @@
 {% set page =
     {
         "title": "Producto",
-        "subtitle": "Actualizacion de Stock",
+        "subtitle": "Actualización de Stock",
         "section": "Producto"
     }
 %}
@@ -32,7 +32,7 @@
                           <tr {% if not item.active %} class="danger" {% endif %}>
                             <td>{{ item.id }}</td>
                             <td>{{ item.nombre }}</td>
-                            <td><input class="form-control" name="producto[{{ item.id }}]" value="{{ item.stock }}" type="number"></td>
+                            <td><input class="form-control" name="producto[{{ item.id }}]" value="{{ item.stock }}" type="number" min="0",></td>
                           </tr>
                         {% endfor %}
                       </tbody>

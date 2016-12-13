@@ -11,7 +11,7 @@ function graficar(datos) {
         }
     ];
     $('#graficontainer').highcharts(getChartOpt('area',
-            'Estadisticas de entrada y salidas de productos',
+            'Estadísticas de entradas y salidas de productos',
             xAxis,
             series));
 

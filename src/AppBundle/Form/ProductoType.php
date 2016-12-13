@@ -20,7 +20,8 @@ class ProductoType extends AbstractType
           'required' => true,
           'attr' => array(
             'class' => 'form-control',
-            'placeholder' => 'Stock Minimo',
+            'placeholder' => 'Stock Mínimo',
+            'min' => '0',
           )
         ))
         ->add('stockIdeal', null, array(
@@ -30,6 +31,7 @@ class ProductoType extends AbstractType
           'attr' => array(
             'class' => 'form-control',
             'placeholder' => 'Stock Ideal',
+            'min' => '0',
           )
         ))
         ->add('stock', null, array(
@@ -39,6 +41,7 @@ class ProductoType extends AbstractType
           'attr' => array(
             'class' => 'form-control',
             'placeholder' => 'Stock Actual',
+            'min' => '0',
           )
         ))
         ->add('nombre', null, array(

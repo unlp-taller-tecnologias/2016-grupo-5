@@ -100,6 +100,7 @@ class PedidoController extends MainController
                 $em->persist($detallePedido->getProducto());
               }
               $em->flush();
+              $this->indexAction();
           }
           return $this->frontRender('pedido/close.html.twig', array(
               'pedido' => $pedido,

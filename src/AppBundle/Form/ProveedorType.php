@@ -16,7 +16,7 @@ class ProveedorType extends AbstractType
         $builder->add('nombre', null, array(
           'label' => 'Nombre',
           'mapped' => true,
-          'required' => false,
+          'required' => true,
           'attr' => array(
             'class' => 'form-control',
             'placeholder' => 'Escriba un Nombre',
