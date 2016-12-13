@@ -1,6 +1,9 @@
 $(function() {
   $('#productSelect').select2();
-
+  $('input[name="responsable"]').keyup(function(){
+    $('span.help-block').addClass('hidden');
+    $('span.help-block').parent().removeClass('has-error');
+  });
   $('#productSelect').change(function(){
     if ($('#product_'+$(this).val()).length == 0) {
       $('#listProduct').append('<tr id="product_'+$(this).val()+'"><td>'+$(this).val()+'</td><td>'+$('#productSelect option:selected').text()+'</td><td><input type="number" class="form-control productCant" min="1" view=false name="producto['+$(this).val()+']" max="'+$('#productSelect option:selected').attr('stock')+'"value="0" stockMinimo="'+$('#productSelect option:selected').attr('stockmin')+'"/></td><td>'+$('#productSelect option:selected').attr('stock')+'</td><td class="table-operations"><span role="button" onclick="remove('+$(this).val()+',\''+$('#productSelect option:selected').text()+'\')" title="eliminar"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span></td></tr>');
@@ -41,11 +44,13 @@ $(function() {
     if ($('#msj')[0].style.display == "block") {
       $('#msj').modal('hide');
       event.preventDefault();
-      console.log('no entro al else');
     }else{
         if ($('input[name="responsable"]').val() != "") {
           return true;
         }else {
+          $('input[name="responsable"]').attr('id', 'inputError');
+          $('span.help-block').removeClass('hidden');
+          $('span.help-block').parent().addClass('has-error');
           return false;
         }
     }
