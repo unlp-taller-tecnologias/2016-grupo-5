@@ -48,7 +48,11 @@ class EnvioController extends MainController
         $em = $this->getDoctrine()->getManager();
         $productos = $em->getRepository('AppBundle:Producto')->findAllActive();
         $sectores = $em->getRepository('AppBundle:Sector')->findAllActive();
+        $error = null;
+
         if ($request->isMethod('POST')) {
+          $productos = $request->request->get('producto') != null;
+          if ($productos) {
             $sector = $em->getRepository('AppBundle:Sector')->findOneById($request->request->get('sector'));
             $envio->setSector($sector);
             $envio->setResponsable($request->request->get('responsable'));
@@ -66,21 +70,20 @@ class EnvioController extends MainController
                 $envio->adddetalle($detalleEnvio);
                 $em->persist($envio);
               }else{
-                return $this->frontRender('envio/new.html.twig', array(
-                    'envio' => $envio,
-                    'productos' => $productos,
-                    'sectores' => $sectores,
-                    'error' => "hay productos donde la cantidad de elementos a enviar es superior al stock, revise el listado"
-                ));
+                $error="hay productos donde la cantidad de elementos a enviar es superior al stock, revise el listado";
               }
             }
             $em->flush();
             return $this->redirectToRoute('envio_index');
+          }else{
+            $error="Error: Por favor ingrese productos en el envio";
+          }
         }
         return $this->frontRender('envio/new.html.twig', array(
             'envio' => $envio,
             'productos' => $productos,
-            'sectores' => $sectores
+            'sectores' => $sectores,
+            'msj' => $error
         ));
     }
 

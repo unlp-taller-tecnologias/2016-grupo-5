@@ -44,28 +44,36 @@ class PedidoController extends MainController
     {
         $pedido = new Pedido();
         $em = $this->getDoctrine()->getManager();
+        $msj = null;
         if ($request->isMethod('POST')) {
-            $proveedor = $em->getRepository('AppBundle:Proveedor')->findOneById($request->request->get('proveedor'));
-            $pedido->setProveedor($proveedor);
-            $em->persist($pedido);
-            $em->flush();
-            foreach ($request->request->get('producto') as $id => $cant) {
-              $detallePedido = new DetallePedido();
-              $detallePedido->setPedido($pedido);
-              $detallePedido->setCantidadPedida($cant);
-              $producto = $em->getRepository('AppBundle:Producto')->findOneById($id);
-              $detallePedido->setProducto($producto);
-              $em->persist($detallePedido);
+            $productos = $request->request->get('producto') != null;
+            if ($productos) {
+              $proveedor = $em->getRepository('AppBundle:Proveedor')->findOneById($request->request->get('proveedor'));
+              $pedido->setProveedor($proveedor);
+              $em->persist($pedido);
               $em->flush();
-              $pedido->adddetalle($detallePedido);
+              foreach ($request->request->get('producto') as $id => $cant) {
+                $detallePedido = new DetallePedido();
+                $detallePedido->setPedido($pedido);
+                $detallePedido->setCantidadPedida($cant);
+                $producto = $em->getRepository('AppBundle:Producto')->findOneById($id);
+                $detallePedido->setProducto($producto);
+                $em->persist($detallePedido);
+                $em->flush();
+                $pedido->adddetalle($detallePedido);
+              }
+              $em->persist($pedido);
+              $em->flush();
+              return $this->showAction($pedido);
+            }else{
+              $msj = "Error: Por favor ingrese productos en el pedido";
             }
-            $em->persist($pedido);
-            $em->flush();
         }
         $proveedors = $em->getRepository('AppBundle:Proveedor')->findAllActive();
         return $this->frontRender('pedido/new.html.twig', array(
             'pedido' => $pedido,
             'proveedors' => $proveedors,
+            'msj' => $msj
         ));
     }
 
@@ -77,22 +85,26 @@ class PedidoController extends MainController
      */
     public function closeAction(Request $request, Pedido $pedido)
     {
-        $em = $this->getDoctrine()->getManager();
-        if ($request->isMethod('POST')) {
-            $cant= $request->request->get('cant');
-            $pedido->setFechaCierre(new \DateTime());
-            foreach ( $pedido->getDetalle() as $detallePedido) {
-              $id = $detallePedido->getId();
-              $detallePedido->setCantidadRecibida($cant[$id]);
-              $detallePedido->getProducto()->addStock($cant[$id]);
-              $em->persist($detallePedido);
-              $em->persist($detallePedido->getProducto());
-            }
-            $em->flush();
-        }
-        return $this->frontRender('pedido/close.html.twig', array(
-            'pedido' => $pedido,
-        ));
+        if ($pedido->getFechaCierre()) {
+          return $this->showAction($pedido);
+        }else{
+          $em = $this->getDoctrine()->getManager();
+          if ($request->isMethod('POST')) {
+              $cant= $request->request->get('cant');
+              $pedido->setFechaCierre(new \DateTime());
+              foreach ( $pedido->getDetalle() as $detallePedido) {
+                $id = $detallePedido->getId();
+                $detallePedido->setCantidadRecibida($cant[$id]);
+                $detallePedido->getProducto()->addStock($cant[$id]);
+                $em->persist($detallePedido);
+                $em->persist($detallePedido->getProducto());
+              }
+              $em->flush();
+          }
+          return $this->frontRender('pedido/close.html.twig', array(
+              'pedido' => $pedido,
+          ));
+      }
     }
     /**
      * print a pedido entity.

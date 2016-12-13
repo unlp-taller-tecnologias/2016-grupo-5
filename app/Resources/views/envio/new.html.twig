@@ -13,10 +13,10 @@
 {% endblock %}
 
 {% block content %}
-{% if error is defined %}
+{% if msj is not null %}
   <div class="callout callout-danger">
-    <h4>Atención! el pedido no se pudo realizar</h4>
-    <p>{{error}}</p>
+    <h4>Atencion:</h4>
+    <p>{{msj}}</p>
   </div>
 {% endif %}
 <form action="{{ path('envio_new')}}" id="formSend" method="post">
