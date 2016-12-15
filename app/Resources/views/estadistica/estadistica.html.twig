@@ -29,7 +29,7 @@
                     </div>
                     <div class="col-md-4">
                         <label>Producto</label>
-                        <select class="form-control" id="productos" name="producto_id">
+                        <select class="form-control select2 " id="productos" name="producto_id">
                             {% for producto in productos%}
                                 <option value="{{producto.id}}">{{producto.nombre}}</option>
                             {% endfor %}
@@ -79,3 +79,24 @@
     <script type="text/javascript" src='{{ asset('js/highcharts-datatable.js')}}'></script>
     <script type="text/javascript" src='{{ asset('js/estadistica.js')}}'></script>
 {% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript">
+      var url="{{path('ajax_get_product')}}";
+      function remove(id, nombre){
+        if ($('#productSelect option').length == 1){
+          $('#productSelect option').remove();
+          $('#productSelect').append('<option>Seleccione un producto</option>');
+        }
+        var stock = $('#product_'+id).find('input').attr('max');
+        var stockMin = $('#product_'+id).find('input').attr('stockminimo');
+        $('#productSelect').append('<option value="'+id+'" stock="'+stock+'" stockmin="'+stockMin+'">'+nombre+'</option>');
+        $('#product_'+id).remove();
+      }
+    </script>
+    <script type="text/javascript" src="{{ asset('lib/bootstrap-datatables/jquery.dataTables.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('lib/jquery-select2/dist/js/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('lib/bootstrap-datatables/dataTables.bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/NewSend.js') }}"></script>
+{% endblock javascript %}

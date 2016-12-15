@@ -90,7 +90,7 @@ class EstadisticaController extends MainController {
         $array_pedidos = array();
         $array_envios = array();
 
-        for ($i = 0; $i < $days; $i++) {
+        for ($i = 0; $i <= $days; $i++) {
             $data = $desde->format("d/m/Y");
             array_push($array_dias, $data);
             $array_envios[$data] = 0;
