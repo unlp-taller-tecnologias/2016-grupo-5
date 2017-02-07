@@ -61,10 +61,20 @@ class EstadisticaController extends MainController {
             $producto_id = $request->get('producto_id');
 
             $em = $this->getDoctrine()->getManager();
+
+            $array=explode("-", $fecha_fin);
+            $array[2]= ++$array[2];
+            $fecha_fin=implode("-",$array);
             $pedidos = $em->getRepository('AppBundle:DetallePedido')->cantidadPorDia($producto_id, $fecha_inicio, $fecha_fin);
 
             $envios = $em->getRepository('AppBundle:DetalleEnvio')->cantidadPorDia($producto_id, $fecha_inicio, $fecha_fin);
+            $array=explode("-", $fecha_fin);
+            $array[2]= --$array[2];
+            $fecha_fin=implode("-", $array);
+
+
             $fechas = $this->arreglo_fechas($fecha_inicio, $fecha_fin, $pedidos, $envios);
+
             return new JsonResponse($fechas);
         } else {
             $msg = 'La fecha inicial es posterior a la fecha final';
@@ -90,7 +100,7 @@ class EstadisticaController extends MainController {
         $array_pedidos = array();
         $array_envios = array();
 
-        for ($i = 0; $i <= $days; $i++) {
+        for ($i = 0; $i <= ($days); $i++) {
             $data = $desde->format("d/m/Y");
             array_push($array_dias, $data);
             $array_envios[$data] = 0;

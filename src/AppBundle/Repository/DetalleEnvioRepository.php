@@ -10,7 +10,7 @@ namespace AppBundle\Repository;
  */
 class DetalleEnvioRepository extends \Doctrine\ORM\EntityRepository
 {
-    
+
     public function cantidadPorDia($idProducto, $fechaInicio,$fechaFin) {
 
         $q = $this->getEntityManager()->createQueryBuilder()
