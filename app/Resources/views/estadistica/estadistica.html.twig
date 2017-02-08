@@ -27,6 +27,9 @@
                         <input class="form-control" type="text" id="fecha_fin" name="fecha_fin" value="{{"now"|date("d/m/Y")}}">
                         <input id="fecha_fin_o" type="hidden" name="fecha_fin_o" value="{{"now" | date("Y-m-d")}}">
                     </div>
+                    <div class="box-footer">
+                        <button type="submit" id="botonMostrarTodo" class="btn bg-olive btn-flat margin pull-right">Mostrar Todo</button>
+                    </div>
                     <div class="col-md-4">
                         <label>Producto</label>
                         <select class="form-control select2 " id="productos" name="producto_id">
@@ -39,8 +42,9 @@
             </div>
         </div>
         <div class="box-footer">
-            <button type="submit" id="botonMostrar" class="btn bg-olive btn-flat margin pull-right">Mostrar</button>
+            <button type="submit" id="botonMostrar" class="btn bg-olive btn-flat margin pull-right">Mostrar Producto</button>
         </div>
+
     </div><div class="modal modal-warning" id="msj">
   <div class="modal-dialog">
     <div class="modal-content">
