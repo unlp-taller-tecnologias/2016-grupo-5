@@ -34,6 +34,7 @@ framework:
 
 # Twig Configuration
 twig:
+    cache:  false
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
 
@@ -71,6 +72,9 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: AppBundle\Entity\User
+    from_email:
+        address: asd@asd.com
+        sender_name: admin
 
 knp_snappy:
     temporary_folder: %kernel.cache_dir%/snappy

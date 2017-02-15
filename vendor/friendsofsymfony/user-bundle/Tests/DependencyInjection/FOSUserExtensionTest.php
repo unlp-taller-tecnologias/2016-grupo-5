@@ -244,10 +244,10 @@ class FOSUserExtensionTest extends \PHPUnit_Framework_TestCase
         $this->createEmptyConfiguration();
 
         $this->assertParameter(false, 'fos_user.registration.confirmation.enabled');
-        $this->assertParameter(array('webmaster@example.com' => 'webmaster'), 'fos_user.registration.confirmation.from_email');
-        $this->assertParameter('FOSUserBundle:Registration:email.txt.twig', 'fos_user.registration.confirmation.template');
-        $this->assertParameter('FOSUserBundle:Resetting:email.txt.twig', 'fos_user.resetting.email.template');
-        $this->assertParameter(array('webmaster@example.com' => 'webmaster'), 'fos_user.resetting.email.from_email');
+        $this->assertParameter(array('admin@acme.org' => 'Acme Corp'), 'fos_user.registration.confirmation.from_email');
+        $this->assertParameter('@FOSUser/Registration/email.txt.twig', 'fos_user.registration.confirmation.template');
+        $this->assertParameter('@FOSUser/Resetting/email.txt.twig', 'fos_user.resetting.email.template');
+        $this->assertParameter(array('admin@acme.org' => 'Acme Corp'), 'fos_user.resetting.email.from_email');
         $this->assertParameter(86400, 'fos_user.resetting.token_ttl');
     }
 
@@ -260,7 +260,7 @@ class FOSUserExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertParameter('AcmeMyBundle:Registration:mail.txt.twig', 'fos_user.registration.confirmation.template');
         $this->assertParameter('AcmeMyBundle:Resetting:mail.txt.twig', 'fos_user.resetting.email.template');
         $this->assertParameter(array('reset@acme.org' => 'Acme Corp'), 'fos_user.resetting.email.from_email');
-        $this->assertParameter(1800, 'fos_user.resetting.token_ttl');
+        $this->assertParameter(7200, 'fos_user.resetting.retry_ttl');
     }
 
     public function testUserLoadUtilServiceWithDefaults()
@@ -366,6 +366,9 @@ class FOSUserExtensionTest extends \PHPUnit_Framework_TestCase
 db_driver: mongodb
 firewall_name: fos_user
 user_class: Acme\MyBundle\Document\User
+from_email:
+    address: admin@acme.org
+    sender_name: Acme Corp
 EOF;
         $parser = new Parser();
 
@@ -409,7 +412,8 @@ registration:
         name: acme_registration_form
         validation_groups: [acme_registration]
 resetting:
-    token_ttl: 1800
+    retry_ttl: 7200
+    token_ttl: 86400
     email:
         from_email:
             address: reset@acme.org

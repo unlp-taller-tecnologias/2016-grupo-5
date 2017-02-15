@@ -62,19 +62,37 @@ class EstadisticaController extends MainController {
 
             $em = $this->getDoctrine()->getManager();
 
-            $array=explode("-", $fecha_fin);
-            $array[2]= ++$array[2];
-            $fecha_fin=implode("-",$array);
-            $pedidos = $em->getRepository('AppBundle:DetallePedido')->cantidadPorDia($producto_id, $fecha_inicio, $fecha_fin);
+            if ($producto_id !== '-1') {
+                $array = explode("-", $fecha_fin);
+                $array[2] = ++$array[2];
+                $fecha_fin = implode("-", $array);
+                $pedidos = $em->getRepository('AppBundle:DetallePedido')->cantidadPorDia($producto_id, $fecha_inicio, $fecha_fin);
 
-            $envios = $em->getRepository('AppBundle:DetalleEnvio')->cantidadPorDia($producto_id, $fecha_inicio, $fecha_fin);
-            $array=explode("-", $fecha_fin);
-            $array[2]= --$array[2];
-            $fecha_fin=implode("-", $array);
+                $envios = $em->getRepository('AppBundle:DetalleEnvio')->cantidadPorDia($producto_id, $fecha_inicio, $fecha_fin);
+                $array = explode("-", $fecha_fin);
+                $array[2] = --$array[2];
+                $fecha_fin = implode("-", $array);
 
 
-            $fechas = $this->arreglo_fechas($fecha_inicio, $fecha_fin, $pedidos, $envios);
-
+                $fechas = $this->arreglo_fechas($fecha_inicio, $fecha_fin, $pedidos, $envios);
+            } else {
+                $array = explode("-", $fecha_fin);
+                $array[2] = ++$array[2];
+                $fecha_fin = implode("-", $array);
+                // $pedidos = $em->getRepository('AppBundle:DetallePedido')->cantidadPorDiaTotal( $fecha_inicio, $fecha_fin);
+                $fechas = $em->getRepository('AppBundle:DetalleEnvio')->cantidadPorDiaTotal($fecha_inicio, $fecha_fin);
+                $data=array();
+                foreach ($fechas as $prod) {
+                    $data[]=array(
+                        'id'=> (int)$prod[1],
+                        'cant' =>(int)$prod['cantidad']
+                    );
+                }
+                $fechas=$data;
+                $array = explode("-", $fecha_fin);
+                $array[2] = --$array[2];
+                $fecha_fin = implode("-", $array);
+            }
             return new JsonResponse($fechas);
         } else {
             $msg = 'La fecha inicial es posterior a la fecha final';

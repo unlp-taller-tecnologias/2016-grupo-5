@@ -48,6 +48,9 @@ function getChartOpt(chartType, chartTitle, xAxis, chartSeries) {
         series: chartSeries
     };
 }
+function graficar_tabla(){
+    
+}
 
 function castear_a_int(jsonArray) {
     for (var i = 0; i < jsonArray.length; i++) {

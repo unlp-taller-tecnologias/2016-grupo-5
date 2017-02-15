@@ -40,7 +40,7 @@ class GroupController extends Controller
     {
         $groups = $this->get('fos_user.group_manager')->findGroups();
 
-        return $this->render('FOSUserBundle:Group:list.html.twig', array(
+        return $this->render('@FOSUser/Group/list.html.twig', array(
             'groups' => $groups,
         ));
     }
@@ -56,7 +56,7 @@ class GroupController extends Controller
     {
         $group = $this->findGroupBy('name', $groupName);
 
-        return $this->render('FOSUserBundle:Group:show.html.twig', array(
+        return $this->render('@FOSUser/Group/show.html.twig', array(
             'group' => $group,
         ));
     }
@@ -91,7 +91,7 @@ class GroupController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             /** @var $groupManager \FOS\UserBundle\Model\GroupManagerInterface */
             $groupManager = $this->get('fos_user.group_manager');
 
@@ -110,7 +110,7 @@ class GroupController extends Controller
             return $response;
         }
 
-        return $this->render('FOSUserBundle:Group:edit.html.twig', array(
+        return $this->render('@FOSUser/Group/edit.html.twig', array(
             'form' => $form->createView(),
             'group_name' => $group->getName(),
         ));
@@ -141,7 +141,7 @@ class GroupController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $event = new FormEvent($form, $request);
             $dispatcher->dispatch(FOSUserEvents::GROUP_CREATE_SUCCESS, $event);
 
@@ -157,7 +157,7 @@ class GroupController extends Controller
             return $response;
         }
 
-        return $this->render('FOSUserBundle:Group:new.html.twig', array(
+        return $this->render('@FOSUser/Group/new.html.twig', array(
             'form' => $form->createView(),
         ));
     }

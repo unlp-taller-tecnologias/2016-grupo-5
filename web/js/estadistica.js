@@ -21,14 +21,17 @@ $('#botonMostrar').on('click',function(){
     var fechainicio = $("#fecha_inicio_o").val();
     var fechafin = $("#fecha_fin_o").val();
     var producto_id = $("#productos").val();
-
-    $.ajax({
+     $.ajax({
         type: 'GET',
         url: 'estadisticasproducto',
         data: {fecha_inicio: fechainicio, fecha_fin: fechafin, producto_id: producto_id},
 
         success: function(datos){
+            if(producto_id !== '-1'){
               graficar(datos);
+          }else{
+              graficar_tabla(datos)
+          }
         },
         error: function(){
             var msg = 'La fecha inicial es posterior a la fecha final'
@@ -38,4 +41,5 @@ $('#botonMostrar').on('click',function(){
         }
 
     });
+
 });
