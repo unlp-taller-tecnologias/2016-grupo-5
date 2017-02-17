@@ -48,7 +48,7 @@ function getChartOpt(chartType, chartTitle, xAxis, chartSeries) {
         series: chartSeries
     };
 }
-function graficar_tabla(){
+function graficar_tabla($datos){
     
 }
 

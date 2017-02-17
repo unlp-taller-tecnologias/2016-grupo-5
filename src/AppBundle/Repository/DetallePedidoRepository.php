@@ -26,5 +26,20 @@ class DetallePedidoRepository extends \Doctrine\ORM\EntityRepository
                 ;
         return $q->getQuery()->getResult();
     }
+    
+    public function cantidadPorDiaTotal($fechaInicio, $fechaFin) {
+
+        return $this->getEntityManager()->createQueryBuilder()
+                ->select('IDENTITY(d.producto), SUM(d.cantidadRecibida) as cantidad')
+                ->from('AppBundle:DetallePedido', 'd')
+                ->join('AppBundle:Pedido', 'p', 'WITH', 'd.pedido=p.id')
+                ->where('p.fechaCierre >= :inicio')
+                ->andWhere('p.fechaCierre <= :fin')
+                ->groupBy('d.producto')
+                ->setParameter("inicio", $fechaInicio)
+                ->setParameter("fin", $fechaFin)
+                ->getQuery()
+                ->getResult();
+    }
 
 }

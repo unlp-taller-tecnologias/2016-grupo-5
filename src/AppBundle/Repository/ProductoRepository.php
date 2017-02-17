@@ -28,7 +28,14 @@ class ProductoRepository extends \Doctrine\ORM\EntityRepository
              ->getQuery()
              ->getResult();
   }
-
+  public function findAllActiveArray()
+  {
+    return $this->createQueryBuilder('p')
+             ->where('p.active = 1')
+             ->orderBy('p.nombre', 'ASC')
+             ->getQuery()
+             ->getArrayResult();
+  }
   public function getCriticalProductFromProvider($idProvider)
   {
     return $this->createQueryBuilder('p')

@@ -79,19 +79,10 @@ class EstadisticaController extends MainController {
                 $array = explode("-", $fecha_fin);
                 $array[2] = ++$array[2];
                 $fecha_fin = implode("-", $array);
-                // $pedidos = $em->getRepository('AppBundle:DetallePedido')->cantidadPorDiaTotal( $fecha_inicio, $fecha_fin);
-                $fechas = $em->getRepository('AppBundle:DetalleEnvio')->cantidadPorDiaTotal($fecha_inicio, $fecha_fin);
-                $data=array();
-                foreach ($fechas as $prod) {
-                    $data[]=array(
-                        'id'=> (int)$prod[1],
-                        'cant' =>(int)$prod['cantidad']
-                    );
-                }
-                $fechas=$data;
-                $array = explode("-", $fecha_fin);
-                $array[2] = --$array[2];
-                $fecha_fin = implode("-", $array);
+                $pedidos = $em->getRepository('AppBundle:DetallePedido')->cantidadPorDiaTotal($fecha_inicio, $fecha_fin);
+                $envios = $em->getRepository('AppBundle:DetalleEnvio')->cantidadPorDiaTotal($fecha_inicio, $fecha_fin);
+                $productos = $em->getRepository('AppBundle:Producto')->findAllActiveArray();
+                $fechas = $this->merge_prod($productos, $pedidos, $envios);
             }
             return new JsonResponse($fechas);
         } else {
@@ -102,6 +93,33 @@ class EstadisticaController extends MainController {
             return $response;
         }
     }
+
+    public function merge_prod($productos, $pedidos, $envios) {
+ 
+        $dataE = array();
+        foreach ($envios as $prod) {
+            $dataE[(int) $prod[1]] =(int) $prod['cantidad'];
+        }
+        $dataP = array();
+        foreach ($pedidos as $prod) {
+            $dataP[(int) $prod[1]] = (int) $prod['cantidad'];
+        }
+        foreach($productos as &$prod){
+            if (isset($dataE[$prod['id']])){
+            $prod['cantE']= $dataE[$prod['id']];
+            }else{
+                $prod['cantE']=0;
+            }
+            if (isset($dataP[$prod['id']])){
+            $prod['cantP']= $dataP[$prod['id']];
+            }else{
+                $prod['cantP']=0;
+            }
+        }
+       $res = $productos;
+       return $res;
+   }
+    
 
     public function fecha_mayor($fecha_inicio, $fecha_fin) {
         $fecha1 = \DateTime::createFromFormat("Y-m-d", $fecha_inicio);
